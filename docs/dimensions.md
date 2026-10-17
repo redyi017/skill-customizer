@@ -28,6 +28,14 @@ Source abbreviations: **Matt** = Matt Pocock skills; **pstack**; **A-skills** = 
 
 > Note: Claude Code has merged custom slash commands into skills (`.claude/commands/x.md` and `.claude/skills/x/SKILL.md` both create `/x` and behave the same; new work should be skills). So "slash command" is no longer a separate mechanism; it is a triggering option under dimension 2, controlled by the frontmatter fields `disable-model-invocation: true` (user only) and `user-invocable: false` (Claude only). Source: https://code.claude.com/docs/en/skills
 
+## Coupling notes
+
+Positions that depend on or conflict with each other (ADR 0006). Filled in during ingestion; each note names the dimensions involved and cites its source.
+
+| Dimensions | Note | Source |
+|---|---|---|
+| 1, 3, 6 | Example (unverified, from catalog pages): "user as tech lead", heavy planning and spec/ticket artifacts form one package. The implement step consumes tickets, so dropping the planning steps leaves it without input. | Matt |
+
 ## Dimension details
 
 Detailed positions, citations and trade-offs for each dimension are added during full ingestion in phase 1. Format:

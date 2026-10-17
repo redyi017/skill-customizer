@@ -22,7 +22,7 @@ Details are in `docs/method.md`.
 
 0. Choose sources → 1. Extract dimensions → 2. Take positions → 3. Design skill architecture → 4. Write skills → 5. Use them → 6. Revise
 
-- Each existing skill set is **read in full once, when it is ingested**. After that it lives in the dimension catalog (`docs/dimensions.md`), and phases 1–3 work from the catalog only.
+- Each existing skill set is **read in full once, when it is ingested**. After that it lives in the dimension catalog (`docs/dimensions.md`) and its workflow profile (`docs/workflows/`), and phases 1–3 work from those only.
 - Third-party files are fetched with `python scripts/fetch_sources.py` into `sources/` (local only, never committed) and pinned to a commit so the originals stay traceable. Go back to them only in phase 4, to borrow specific wording, or when the catalog summary is not enough to make a decision.
 
 ## Layout
@@ -30,7 +30,8 @@ Details are in `docs/method.md`.
 ```
 CLAUDE.md               Working agreement and repo rules (this file)
 docs/method.md          The method for building a workflow
-docs/dimensions.md      Dimension catalog: dimensions, each source's position, the user's position
+docs/dimensions.md      Dimension catalog: dimensions, each source's position, coupling notes, the user's position
+docs/workflows/         Workflow profile per source: steps, hand-offs, user checkpoints, loops
 docs/sources.md         Sources: URL, author, license, pinned commit, ingestion status
 docs/decisions/         ADRs
 docs/sessions/          One note per session

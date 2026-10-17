@@ -7,6 +7,8 @@ The method is not tied to a domain. Its first application is coding.
 - **Dimension**: a design question every workflow has to answer, such as "who has the final say" or "how much planning happens up front".
 - **Position**: one answer to a dimension. Any existing skill set can be read as a particular combination of positions.
 - **Dimension catalog** (`docs/dimensions.md`): every dimension, each source's position on it, and the position the user has chosen. This is the core asset of the repo.
+- **Workflow profile** (`docs/workflows/<source>.md`): how one source's pieces fit together as a flow: steps, what each step hands to the next, user checkpoints, loops (ADR 0006).
+- **Coupling notes** (in `docs/dimensions.md`): which positions depend on or conflict with each other.
 - **General vs. domain dimensions**: general dimensions mostly carry over to other domains (roles, records, handoff, self-improvement). Domain dimensions have to be extracted again for each domain (for coding: TDD, how work is verified).
 
 ## Six phases, and where the user steps in
@@ -15,29 +17,34 @@ The method is not tied to a domain. Its first application is coding.
 |---|---|---|
 | 0. Choose sources | List candidate skill sets and what sets each apart | **Decide** which to ingest |
 | 1. Extract dimensions | Ingest the sources (see "Ingestion" below) and update the catalog | **Confirm** the list of dimensions: add, remove or merge |
-| 2. Take positions | Offer 2–3 options with trade-offs for each dimension | **Decide** a position: A, B, a mix, or your own. This step is always the user's |
-| 3. Design skill architecture | Turn the positions into a list of skills and how they relate | **Approve** the architecture |
+| 2. Take positions | Offer 2–3 options with trade-offs for each dimension, checking the coupling notes so the combination still forms a working flow | **Decide** a position: A, B, a mix, or your own. This step is always the user's |
+| 3. Design skill architecture | Turn the positions into a list of skills and how they relate, starting from the source workflow profiles | **Approve** the architecture |
 | 4. Write skills | Write the skills one by one, going back to the originals for wording when needed | **Spot-check** drafts |
 | 5. Use them | Record where things got stuck or felt wrong in real projects | **Supply material**: real usage that only the user has |
 | 6. Revise | Work out which layer the problem is in: wording, architecture or position | If a position was wrong, **go back to phase 2** |
 
 ## Source lifecycle: ingest once, then use the catalog
 
-Existing skill sets are not re-read every time. Each source goes through one ingestion and becomes entries in the catalog:
+Existing skill sets are not re-read every time. Each source goes through one ingestion and becomes entries in the catalog plus a workflow profile:
 
 1. **Fetch**: Add the source to `scripts/sources.json` (URL, pinned commit, license, paths to exclude), run `python scripts/fetch_sources.py <name>`, and update `docs/sources.md`. Check the license first: do not fetch anything whose license forbids keeping copies. Fetched files stay local and are never committed.
 2. **Read in full**: Read every SKILL.md and the files it references. Catalog pages and READMEs are not enough.
 3. **Map**: Map each practice in the source onto an existing dimension as a position, with a citation.
-4. **Extend**: If the source answers a design question no existing dimension covers, add a dimension and fill in the other sources' positions on it (marking "not addressed" where needed).
-5. **Mark done**: Set the source's status in `docs/sources.md` to "ingested".
+4. **Profile the workflow**: Write `docs/workflows/<source>.md` from the template in `docs/workflows/README.md`, and add the source's coupling notes to `docs/dimensions.md`.
+5. **Extend**: If the source answers a design question no existing dimension covers, add a dimension and fill in the other sources' positions on it (marking "not addressed" where needed).
+6. **Mark done**: Set the source's status in `docs/sources.md` to "ingested".
 
 After ingestion:
 
-- Phases 1–3 work from the catalog only.
+- Phases 1–3 work from the catalog and the workflow profiles only.
 - Adding a source means running ingestion for that source only; older sources are not re-read.
 - Go back to the originals in only two cases: phase 4 needs specific wording or structure, or a catalog summary is not enough for the user to decide.
 
 Trade-off: summarizing always loses detail, so every position must cite its origin and stay traceable to the original.
+
+## Optional input: the user's current workflow
+
+During phases 2–3 the user may describe how they work today, in the same format as a workflow profile. It is optional: phase 2 positions already capture what the user wants. Its value is catching steps no source covers and habits worth keeping. Nothing is written for it during repo build-up (ADR 0006).
 
 ## Extending to another domain
 
