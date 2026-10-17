@@ -1,16 +1,19 @@
 # Sources
 
-The machine-readable settings (commits, excluded paths) are in `scripts/sources.json`; keep the two in sync. Source files are fetched locally with `python scripts/fetch_sources.py` and never committed (ADR 0004).
+Pinned commits, fetch scope and license labels live in `scripts/sources.json`, the single source of truth. This file holds license details, scope rationale and ingestion status. Source files are fetched locally with `python scripts/fetch_sources.py` and never committed (ADR 0004).
 
-| Source | URL | Author | License | Pinned commit | Status |
+| Source | URL | Author | License | Scope | Status |
 |---|---|---|---|---|---|
-| Matt Pocock skills | https://github.com/mattpocock/skills | Matt Pocock | MIT (© 2026 Matt Pocock) | `49dd158d1076134a641b33efb035946536778336` (2026-10-17) | Fetched, not ingested |
-| pstack | https://github.com/backnotprop/pstack | poteto (Lauren Tan) | MIT (© 2026 Lauren Tan) | `6f131f137de64fdaf928278c0fd9ecec520ccbee` (2026-10-17) | Fetched, not ingested |
-| Anthropic skills | https://github.com/anthropics/skills | Anthropic | Mostly Apache 2.0; **docx, pdf, pptx and xlsx are proprietary** and may not be copied, retained, adapted or distributed | `dbd4588f9e1033efb41dad4bef2f7947c8993d44` (2026-10-17) | Fetched (proprietary skills excluded), not ingested |
-| Anthropic Claude Code plugins | https://github.com/anthropics/claude-code/tree/main/plugins | Anthropic | **All rights reserved**, governed by Anthropic's Commercial Terms; not open source | `c017428c8c27e604840435048d5bce6a9a22c040` (2026-10-17) | Fetched, not ingested |
+| `mattpocock-skills` | https://github.com/mattpocock/skills | Matt Pocock | MIT (© 2026 Matt Pocock) | Full | Fetched, not ingested |
+| `pstack` | https://github.com/backnotprop/pstack | poteto (Lauren Tan) | MIT (© 2026 Lauren Tan) | Full | Fetched, not ingested |
+| `anthropic-skills` | https://github.com/anthropics/skills | Anthropic | Apache 2.0 for the skills in scope. docx, pdf, pptx and xlsx are proprietary (no copying, retaining, adapting or distributing) and are never fetched | Coding-related only | Fetched, not ingested |
+| `claude-code-plugins` | https://github.com/anthropics/claude-code/tree/main/plugins | Anthropic | **All rights reserved**, governed by Anthropic's Commercial Terms; not open source | Coding-related only | Fetched, not ingested |
 
-## Notes
+## Scope (ADR 0007)
 
-- 2026-10-17: Catalog v0 is based only on catalog and description pages, not on a full reading.
-- Anthropic skills on 2026-10-17: academy-guide, algorithmic-art, brand-guidelines, canvas-design, claude-api, discernment-nudge, doc-coauthoring, docx, frontend-design, internal-comms, mcp-builder, pdf, pptx, skill-creator, slack-gif-creator, theme-factory, web-artifacts-builder, webapp-testing, xlsx.
-- Claude Code plugins on 2026-10-17: agent-sdk-dev, claude-opus-4-5-migration, code-review, commit-commands, explanatory-output-style, feature-dev, frontend-design, hookify, learning-output-style, plugin-dev, pr-review-toolkit, ralph-wiggum, security-guidance. Besides skills, they use slash commands, subagents and hooks.
+Matt Pocock skills and pstack are the two main, contrasting coding workflows, so they are ingested in full. The other two are ingested only where they bear on coding:
+
+- `anthropic-skills`: `skill-creator`, `webapp-testing`, `mcp-builder`, `doc-coauthoring`, plus the repo README and the Agent Skills spec. Out of scope: academy-guide, algorithmic-art, brand-guidelines, canvas-design, claude-api, discernment-nudge, frontend-design, internal-comms, slack-gif-creator, theme-factory, web-artifacts-builder, and the proprietary document skills.
+- `claude-code-plugins`: `feature-dev`, `code-review`, `pr-review-toolkit`, `security-guidance`, `hookify`, `commit-commands`, `ralph-wiggum`, `explanatory-output-style`, `learning-output-style`, plus the plugins README. Out of scope: agent-sdk-dev, claude-opus-4-5-migration, frontend-design, plugin-dev.
+
+To widen the scope, add paths to the source's `sparse` list in `scripts/sources.json` and fetch again.

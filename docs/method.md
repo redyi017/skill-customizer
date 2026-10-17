@@ -17,7 +17,7 @@ The method is not tied to a domain. Its first application is coding.
 |---|---|---|
 | 0. Choose sources | List candidate skill sets and what sets each apart | **Decide** which to ingest |
 | 1. Extract dimensions | Ingest the sources (see "Ingestion" below) and update the catalog | **Confirm** the list of dimensions: add, remove or merge |
-| 2. Take positions | Offer 2–3 options with trade-offs for each dimension, checking the coupling notes so the combination still forms a working flow | **Decide** a position: A, B, a mix, or your own. This step is always the user's |
+| 2. Take positions | Offer 2–3 options with trade-offs for each dimension, checking the coupling notes so the combination still forms a working flow; record each choice with a one-line reason in the catalog | **Decide** a position: A, B, a mix, or your own. Add dimensions the catalog lacks. This step is always the user's |
 | 3. Design skill architecture | Turn the positions into a list of skills and how they relate, starting from the source workflow profiles | **Approve** the architecture |
 | 4. Write skills | Write the skills one by one, going back to the originals for wording when needed | **Spot-check** drafts |
 | 5. Use them | Record where things got stuck or felt wrong in real projects | **Supply material**: real usage that only the user has |
@@ -27,8 +27,8 @@ The method is not tied to a domain. Its first application is coding.
 
 Existing skill sets are not re-read every time. Each source goes through one ingestion and becomes entries in the catalog plus a workflow profile:
 
-1. **Fetch**: Add the source to `scripts/sources.json` (URL, pinned commit, license, paths to exclude), run `python scripts/fetch_sources.py <name>`, and update `docs/sources.md`. Check the license first: do not fetch anything whose license forbids keeping copies. Fetched files stay local and are never committed.
-2. **Read in full**: Read every SKILL.md and the files it references. Catalog pages and READMEs are not enough.
+1. **Fetch**: Add the source to `scripts/sources.json` (URL, pinned commit, license, fetch scope), run `python scripts/fetch_sources.py <name>`, and update `docs/sources.md`. Check the license first: do not fetch anything whose license forbids keeping copies. Limit the scope to parts that bear on the domain. Fetched files stay local and are never committed.
+2. **Read in full**: Within the scope, read every SKILL.md and the files it references. Catalog pages and READMEs are not enough.
 3. **Map**: Map each practice in the source onto an existing dimension as a position, with a citation.
 4. **Profile the workflow**: Write `docs/workflows/<source>.md` from the template in `docs/workflows/README.md`, and add the source's coupling notes to `docs/dimensions.md`.
 5. **Extend**: If the source answers a design question no existing dimension covers, add a dimension and fill in the other sources' positions on it (marking "not addressed" where needed).
@@ -36,11 +36,20 @@ Existing skill sets are not re-read every time. Each source goes through one ing
 
 After ingestion:
 
-- Phases 1–3 work from the catalog and the workflow profiles only.
+- Later phases use the catalog and the workflow profiles instead of re-reading sources.
 - Adding a source means running ingestion for that source only; older sources are not re-read.
 - Go back to the originals in only two cases: phase 4 needs specific wording or structure, or a catalog summary is not enough for the user to decide.
 
 Trade-off: summarizing always loses detail, so every position must cite its origin and stay traceable to the original.
+
+## The catalog is a reference, not a boundary
+
+The catalog saves re-reading; it does not limit what the skill set can be (ADR 0007).
+
+- The user may take a position no source takes.
+- Dimensions may be added in any phase: from the user's own needs, from designing the architecture, or from real use in phase 5.
+- The skill architecture may include skills no source has.
+- Anything without a source is cited as `user`, or `usage` if it came from phase 5, so every entry stays traceable.
 
 ## Optional input: the user's current workflow
 

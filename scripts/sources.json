@@ -3,24 +3,46 @@
     "repo": "https://github.com/mattpocock/skills",
     "commit": "49dd158d1076134a641b33efb035946536778336",
     "license": "MIT",
-    "sparse": ["/*"]
+    "sparse": [
+      "/*"
+    ]
   },
   "pstack": {
     "repo": "https://github.com/backnotprop/pstack",
     "commit": "6f131f137de64fdaf928278c0fd9ecec520ccbee",
     "license": "MIT",
-    "sparse": ["/*"]
+    "sparse": [
+      "/*"
+    ]
   },
   "anthropic-skills": {
     "repo": "https://github.com/anthropics/skills",
     "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
-    "license": "Apache-2.0 (docx/pdf/pptx/xlsx proprietary: excluded)",
-    "sparse": ["/*", "!/skills/docx/", "!/skills/pdf/", "!/skills/pptx/", "!/skills/xlsx/"]
+    "license": "Apache-2.0 (coding-related skills only; proprietary docx/pdf/pptx/xlsx never fetched)",
+    "sparse": [
+      "/README.md",
+      "/spec/",
+      "/skills/skill-creator/",
+      "/skills/webapp-testing/",
+      "/skills/mcp-builder/",
+      "/skills/doc-coauthoring/"
+    ]
   },
   "claude-code-plugins": {
     "repo": "https://github.com/anthropics/claude-code",
     "commit": "c017428c8c27e604840435048d5bce6a9a22c040",
     "license": "All rights reserved (read-only reference; never copy text)",
-    "sparse": ["/plugins/"]
+    "sparse": [
+      "/plugins/README.md",
+      "/plugins/feature-dev/",
+      "/plugins/code-review/",
+      "/plugins/pr-review-toolkit/",
+      "/plugins/security-guidance/",
+      "/plugins/hookify/",
+      "/plugins/commit-commands/",
+      "/plugins/ralph-wiggum/",
+      "/plugins/explanatory-output-style/",
+      "/plugins/learning-output-style/"
+    ]
   }
 }

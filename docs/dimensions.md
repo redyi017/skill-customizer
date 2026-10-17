@@ -4,6 +4,8 @@
 
 Kind: **General** = carries over to other domains; **Domain** = specific to coding.
 
+The catalog is a reference, not a boundary (ADR 0007). Dimensions and positions without a source are cited as `user`, or `usage` if they came from phase 5. Record the user's position in the last column with a one-line reason.
+
 ## Overview
 
 Source abbreviations: **Matt** = Matt Pocock skills; **pstack**; **A-skills** = Anthropic skills; **CC** = Anthropic Claude Code plugins. The CC column is based only on each plugin's description.
@@ -20,9 +22,9 @@ Source abbreviations: **Matt** = Matt Pocock skills; **pstack**; **A-skills** = 
 | 8 | Verification | Domain | Code review against standards and the spec | Prove it works | `webapp-testing` runs real Playwright checks; `skill-creator` runs evals | `code-review`: several specialized agents with confidence scores; `pr-review-toolkit` reviews by aspect (tests, error handling, types, …) | TBD |
 | 9 | Delegation and multiple agents | Domain | `/implement-spec` uses parallel subagents | arena and swarm multi-model workflows; models mapped to roles | `skill-creator` runs evals in parallel subagents (unverified) | Heavy use of specialized subagents (explore, architect, review) | TBD |
 | 10 | Context and handoff | General | `/handoff` | Guard the context window (principle skill) | Progressive loading: reference files and scripts beyond SKILL.md are read only when needed | Work goes to subagents; the main conversation gets only results (unverified) | TBD |
-| 11 | Communication style | General | `/wait-what` restates in plain English | Written for the consumer and maintainer of the work; technical-writing | `doc-coauthoring` has readers test the document (unverified); `internal-comms` uses fixed formats | `explanatory-output-style` explains implementation choices; `learning-output-style` teaches | TBD |
+| 11 | Communication style | General | `/wait-what` restates in plain English | Written for the consumer and maintainer of the work; technical-writing | `doc-coauthoring` has readers test the document (unverified) | `explanatory-output-style` explains implementation choices; `learning-output-style` teaches | TBD |
 | 12 | Self-improvement | General | `/retro` | `reflect`; `automate-me` drafts a personal skill from transcripts | `skill-creator`: iterate with evals, optimize descriptions | `hookify` creates hooks from conversation patterns | TBD |
-| 13 | Per-repo / per-org setup | General | `/setup-matt-pocock-skills` | `/setup-pstack`: reasoning budget, model roles | Org settings written into the skill itself (`brand-guidelines`, `internal-comms`) | No dedicated setup plugin seen (unverified) | TBD |
+| 13 | Per-repo / per-org setup | General | `/setup-matt-pocock-skills` | `/setup-pstack`: reasoning budget, model roles | Not addressed within scope (unverified) | No dedicated setup plugin seen (unverified) | TBD |
 | 14 | Skill type and granularity | General | **Process** skills (by phase) + **reference** skills | **Playbooks** (by task) + **principle** skills (one principle each) | **Capability** skills (one tool or format each, with scripts) | **Step** plugins (one workflow step each) | TBD |
 | 15 | Mechanism (skill / subagent / hook) | General | Mostly skills (including legacy commands) | Mostly skills, plus subagents | Skills only | Skills (including legacy commands), subagents and hooks; hooks **enforce** behavior instead of relying on the agent to remember | TBD |
 
