@@ -17,7 +17,7 @@ The method is not tied to a domain. Its first application is coding.
 |---|---|---|
 | 0. Choose sources | List candidate skill sets and what sets each apart | **Decide** which to ingest |
 | 1. Extract dimensions | Ingest the sources (see "Ingestion" below) and update the catalog | **Confirm** the list of dimensions: add, remove or merge |
-| 2. Take positions | Offer 2–3 options with trade-offs for each dimension, checking the coupling notes so the combination still forms a working flow; record each choice with a one-line reason in the catalog | **Decide** a position: A, B, a mix, or your own. Add dimensions the catalog lacks. This step is always the user's |
+| 2. Take positions | Start from the problem list: the user picks the problems they have. Then offer 2–3 options with trade-offs for each linked dimension, checking the coupling notes so the combination still forms a working flow; record each choice with a one-line reason in the catalog | **Decide** a position: A, B, a mix, or your own. Add dimensions the catalog lacks. This step is always the user's |
 | 3. Design skill architecture | Turn the positions into a list of skills and how they relate, starting from the source workflow profiles | **Approve** the architecture |
 | 4. Write skills | Write the skills one by one, going back to the originals for wording when needed | **Spot-check** drafts |
 | 5. Use them | Record where things got stuck or felt wrong in real projects | **Supply material**: real usage that only the user has |
@@ -30,7 +30,7 @@ Existing skill sets are not re-read every time. Each source goes through one ing
 1. **Fetch**: Add the source to `scripts/sources.json` (URL, pinned commit, license, fetch scope), run `python scripts/fetch_sources.py <name>`, and update `docs/sources.md`. Check the license first: do not fetch anything whose license forbids keeping copies. Limit the scope to parts that bear on the domain. Fetched files stay local and are never committed.
 2. **Read in full**: Within the scope, read every SKILL.md and the files it references. Catalog pages and READMEs are not enough.
 3. **Map**: Map each practice in the source onto an existing dimension as a position, with a citation.
-4. **Profile the workflow**: Write `docs/workflows/<source>.md` from the template in `docs/workflows/README.md`, and add the source's coupling notes to `docs/dimensions.md`.
+4. **Profile the workflow**: Write `docs/workflows/<source>.md` from the template in `docs/workflows/README.md`, starting with the problems the source solves. Add those problems to the shared problem list and the source's coupling notes to `docs/dimensions.md` (ADR 0008).
 5. **Extend**: If the source answers a design question no existing dimension covers, add a dimension and fill in the other sources' positions on it (marking "not addressed" where needed).
 6. **Mark done**: Set the source's status in `docs/sources.md` to "ingested".
 

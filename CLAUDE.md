@@ -14,6 +14,11 @@ At the start of every session, read this file, then `docs/status.md`.
   - Deleting or overwriting the user's content: always ask first.
 - **Four ways the user steps in**: decide, confirm, approve, supply material. `docs/method.md` says which one applies at each phase.
 - **Discuss before building**: Show an outline or options first; write the full content only after the user agrees.
+- **Self-checks (ADR 0008)**:
+  - Every proposed file, folder or step carries a "used by phase N" label. No label, no item.
+  - Every outline ends with a short **self-review**: what the source's author would say is missing; what the proposed rules would accidentally forbid; whether it fits the session goal.
+  - Profiles start with "Problems it solves" (template in `docs/workflows/README.md`).
+- **Communication (ADR 0008)**: Lead with a diagram whenever there is a structure or flow to show, then short points. Tables only for short cells. One line per option when asking for a decision.
 - **Record decisions**: Changes to the repo or the method become an ADR in `docs/decisions/NNNN-title.md` (Context / Options / Decision / Rationale). The user's positions on dimensions are recorded in `docs/dimensions.md` with a one-line reason each, not as ADRs (ADR 0007).
 
 ## Method in brief
@@ -30,7 +35,7 @@ Details are in `docs/method.md`.
 ```
 CLAUDE.md               Working agreement and repo rules (this file)
 docs/method.md          The method for building a workflow
-docs/dimensions.md      Dimension catalog: dimensions, each source's position, coupling notes, the user's position
+docs/dimensions.md      Dimension catalog: problem list, dimensions, each source's position, coupling notes, the user's position
 docs/workflows/         Workflow profile per source: steps, hand-offs, user checkpoints, loops
 docs/sources.md         Sources: license details, scope, ingestion status
 docs/status.md          Where we are, open questions, next step

@@ -6,6 +6,14 @@ Kind: **General** = carries over to other domains; **Domain** = specific to codi
 
 The catalog is a reference, not a boundary (ADR 0007). Dimensions and positions without a source are cited as `user`, or `usage` if they came from phase 5. Record the user's position in the last column with a one-line reason.
 
+## Problems
+
+Shared across sources (ADR 0008). Phase 2 starts here: the user picks the problems they actually have, then takes positions on the linked dimensions. Filled in during ingestion from each profile's "Problems it solves".
+
+| # | Problem | Dimensions that serve it | Solved by |
+|---|---|---|---|
+| | _(filled in during ingestion)_ | | |
+
 ## Overview
 
 Source abbreviations: **Matt** = Matt Pocock skills; **pstack**; **A-skills** = Anthropic skills; **CC** = Anthropic Claude Code plugins. The CC column is based only on each plugin's description.
