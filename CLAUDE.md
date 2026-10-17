@@ -16,7 +16,7 @@ At the start of every session, read this file, then `docs/status.md`.
 - **Discuss before building**: Show an outline or options first; write the full content only after the user agrees.
 - **Self-checks (ADR 0008)**:
   - Every proposed file, folder or step carries a "used by phase N" label. No label, no item.
-  - Every outline ends with a short **self-review**: what the source's author would say is missing; what the proposed rules would accidentally forbid; whether it fits the session goal.
+  - Every outline or proposal of something to build or change ends with a short **self-review** (not status updates or answers to questions): what the source's author would say is missing; what the proposed rules would accidentally forbid; whether it fits the session goal.
   - Profiles start with "Problems it solves" (template in `docs/workflows/README.md`).
 - **Communication (ADR 0008)**: Lead with a diagram whenever there is a structure or flow to show, then short points. Tables only for short cells. One line per option when asking for a decision.
 - **Record decisions**: Changes to the repo or the method become an ADR in `docs/decisions/NNNN-title.md` (Context / Options / Decision / Rationale). The user's positions on dimensions are recorded in `docs/dimensions.md` with a one-line reason each, not as ADRs (ADR 0007).
