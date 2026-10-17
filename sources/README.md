@@ -1,12 +1,12 @@
 # sources/
 
-第三方 skill 的原始檔，只存在本機，**不 commit**（見 `docs/decisions/0004-授權與第三方內容.md`）。
+Third-party skill files. They live on your machine only and are **never committed** (see `docs/decisions/0004-licensing-and-third-party-content.md`).
 
-抓取或更新：
+Fetch or update:
 
 ```
-python scripts/fetch_sources.py            # 全部
-python scripts/fetch_sources.py pstack     # 指定一套
+python scripts/fetch_sources.py            # all sources
+python scripts/fetch_sources.py pstack     # one source
 ```
 
-來源、固定的 commit 與授權設定在 `scripts/sources.json`。
+Sources, pinned commits and license settings are in `scripts/sources.json`.

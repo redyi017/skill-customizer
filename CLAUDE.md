@@ -1,57 +1,57 @@
 # SkillCustomizer
 
-這個 repo 用來建立一套**個人 workflow 的 skill-set**。第一個領域是寫程式（Python、Claude Code、GitHub Issues/PR），之後可能延伸到其他領域。
+This repo builds a **personal workflow skill set**. The first domain is coding (Python, Claude Code, GitHub Issues/PRs). Other domains may follow.
 
-每次 session 開始時，先讀本檔，再讀 `docs/sessions/` 最新的一則紀錄。
+At the start of every session, read this file, then the latest note in `docs/sessions/`.
 
-## 互動約定
+## Working agreement
 
-- **語言**：討論、文件、決策紀錄用繁體中文；`skills/` 裡的 skill 本體用英文（ADR 0003）。
-- **一個 session 一個目標**：開始時先確認目標；結束時在 `docs/sessions/YYYY-MM-DD.md` 寫下結論、決定和下一步。
-- **決定權分層**：
-  - 結構性決定（方法、repo 架構、面向清單、各面向的立場、skill 架構）：Claude 提出 2–3 個選項和取捨，使用者拍板。
-  - 小事（措辭、檔案細節）：Claude 直接處理，事後說明怎麼決定的。
-  - 刪除或覆寫使用者的內容：一律先問。
-- **使用者的四種介入**：決定、確認、核准、提供素材。各階段用哪一種，見 `docs/method.md`。
-- **先討論，再動手**：先給大綱或選項，使用者同意後才寫完整內容。
-- **決定要留紀錄**：結構性決定寫成 ADR，放在 `docs/decisions/NNNN-標題.md`，格式為「背景／選項／決定／原因」。
+- **Language**: Everything in the repo is in English (ADR 0003, ADR 0005). In conversation, Claude replies in the language the user writes in.
+- **One goal per session**: Confirm the goal at the start. At the end, write the conclusions, decisions and next steps to `docs/sessions/YYYY-MM-DD.md`.
+- **Who decides what**:
+  - Structural decisions (method, repo layout, the list of dimensions, the user's position on each dimension, skill architecture): Claude presents 2–3 options with trade-offs; the user decides.
+  - Small things (wording, file details): Claude decides and says afterwards what it chose.
+  - Deleting or overwriting the user's content: always ask first.
+- **Four ways the user steps in**: decide, confirm, approve, supply material. `docs/method.md` says which one applies at each phase.
+- **Discuss before building**: Show an outline or options first; write the full content only after the user agrees.
+- **Record decisions**: Every structural decision becomes an ADR in `docs/decisions/NNNN-title.md`, with the sections Context / Options / Decision / Rationale.
 
-## 方法摘要
+## Method in brief
 
-詳細內容見 `docs/method.md`。
+Details are in `docs/method.md`.
 
-0. 選來源 → 1. 抽面向 → 2. 定立場 → 3. 設計 skill 架構 → 4. 撰寫 → 5. 試用 → 6. 修正
+0. Choose sources → 1. Extract dimensions → 2. Take positions → 3. Design skill architecture → 4. Write skills → 5. Use them → 6. Revise
 
-- 既有的 skill set **只在收錄時完整讀一次**，整理進面向庫 `docs/dimensions.md` 之後，第 1–3 階段只用面向庫。
-- 原始檔用 `python scripts/fetch_sources.py` 抓到 `sources/`（只在本機，不進 repo），以固定的 commit 追溯原文。只有在第 4 階段要借用具體寫法，或面向庫的摘要不足以做決定時，才回頭查原文。
+- Each existing skill set is **read in full once, when it is ingested**. After that it lives in the dimension catalog (`docs/dimensions.md`), and phases 1–3 work from the catalog only.
+- Third-party files are fetched with `python scripts/fetch_sources.py` into `sources/` (local only, never committed) and pinned to a commit so the originals stay traceable. Go back to them only in phase 4, to borrow specific wording, or when the catalog summary is not enough to make a decision.
 
-## 目錄結構
+## Layout
 
 ```
-CLAUDE.md            互動約定與 repo 規則（本檔）
-docs/method.md       建立 workflow 的方法
-docs/dimensions.md   面向庫：各面向、各來源的立場、使用者的立場
-docs/sources.md      來源清單：網址、作者、授權、固定的 commit、收錄狀態
-docs/decisions/      ADR
-docs/sessions/       每次 session 的紀錄
-sources/<來源>/      第三方原始檔，只在本機（git-ignored），唯讀
-scripts/             fetch_sources.py 與 sources.json（來源、commit、授權）
-LICENSE              MIT
-THIRD_PARTY_NOTICES.md  借用第三方內容時的版權與授權聲明
-skills/<領域>/       使用者自己的 skill-set
-evals/               skill 的測試
+CLAUDE.md               Working agreement and repo rules (this file)
+docs/method.md          The method for building a workflow
+docs/dimensions.md      Dimension catalog: dimensions, each source's position, the user's position
+docs/sources.md         Sources: URL, author, license, pinned commit, ingestion status
+docs/decisions/         ADRs
+docs/sessions/          One note per session
+sources/<source>/       Third-party files, local only (git-ignored), read-only
+scripts/                fetch_sources.py and sources.json (sources, commits, licenses)
+LICENSE                 MIT
+THIRD_PARTY_NOTICES.md  Copyright and license notices for adapted third-party material
+skills/<domain>/        The user's own skill set
+evals/                  Skill tests
 ```
 
-## 規則
+## Rules
 
-- **授權（ADR 0004）**：第三方原始檔絕不 commit。`sources/` 內的檔案不修改；更新來源時改 `scripts/sources.json` 的 commit 後重新抓取。
-- 借用 MIT／Apache 來源的寫法：在該 skill 資料夾註明出處，並更新 `THIRD_PARTY_NOTICES.md`（Apache 還要註明修改內容）。
-- 非開源來源（Claude Code plugins）：只借用想法，不複製任何文字或程式碼；面向庫中也盡量不引用原文。
-- 面向庫裡的每個立場都要標出處（來源、skill 名稱、檔案路徑），讓人能追溯回原文。
-- 寫進 `skills/` 的每個 skill，都要在檔案中註明參考了哪些面向和來源。
-- Claude 自己的推論與來源原文要分開寫，推論需標明。
+- **Licensing (ADR 0004)**: Never commit third-party source files. Do not edit files in `sources/`; to update a source, change its commit in `scripts/sources.json` and fetch again.
+- Borrowing wording from an MIT or Apache source: name the source in that skill's folder and update `THIRD_PARTY_NOTICES.md` (for Apache, also state what was changed).
+- Non-open-source sources (Claude Code plugins): borrow ideas only; never copy text or code, and avoid quoting them in the catalog.
+- Every position in the catalog cites its origin (source, skill name, file path) so it can be traced back.
+- Every skill in `skills/` states which dimensions and sources it draws on.
+- Keep Claude's own inferences separate from what the sources say, and label them.
 
 ## GitHub
 
-- 公開 repo：https://github.com/redyi017/skill-customizer
-- Claude 在雲端環境推送時，透過 git bundle 把本機 commit 帶到雲端再 push。使用者也可以直接在自己的電腦上 `git push`。
+- Public repo: https://github.com/redyi017/skill-customizer
+- From the cloud environment, Claude carries local commits over with a git bundle and pushes from there. The user can also `git push` from their own machine.

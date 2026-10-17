@@ -1,46 +1,46 @@
-# 建立個人 workflow 的方法
+# Method for building a personal workflow
 
-這份方法不限定領域。第一次套用在「寫程式」上。
+The method is not tied to a domain. Its first application is coding.
 
-## 核心概念
+## Core concepts
 
-- **面向（dimension）**：一個 workflow 必須表態的設計問題。例如「誰有決定權」、「規劃要做多深」。
-- **立場（position）**：某個面向的一種答案。每套既有的 skill set 都可以看成一組立場的組合。
-- **面向庫**（`docs/dimensions.md`）：所有面向、各來源的立場，以及使用者自己選定的立場。這是本 repo 最核心的資產。
-- **通用面向 / 領域面向**：通用面向換到其他領域大多仍適用，例如角色、記錄、交接、自我改進；領域面向需要針對每個領域重新抽出，例如寫程式的 TDD、驗證方式。
+- **Dimension**: a design question every workflow has to answer, such as "who has the final say" or "how much planning happens up front".
+- **Position**: one answer to a dimension. Any existing skill set can be read as a particular combination of positions.
+- **Dimension catalog** (`docs/dimensions.md`): every dimension, each source's position on it, and the position the user has chosen. This is the core asset of the repo.
+- **General vs. domain dimensions**: general dimensions mostly carry over to other domains (roles, records, handoff, self-improvement). Domain dimensions have to be extracted again for each domain (for coding: TDD, how work is verified).
 
-## 六個階段與使用者的介入點
+## Six phases, and where the user steps in
 
-| 階段 | Claude 做什麼 | 使用者介入 |
+| Phase | What Claude does | How the user steps in |
 |---|---|---|
-| 0. 選來源 | 列出候選的 skill set，說明各自的特色 | **決定**要收錄哪些 |
-| 1. 抽面向 | 收錄來源（見下方「收錄流程」），更新面向庫 | **確認**面向清單：增刪或合併 |
-| 2. 定立場 | 每個面向給出 2–3 個選項和取捨 | **決定**立場：選 A、選 B、混合，或自訂。這一步一定由使用者做 |
-| 3. 設計 skill 架構 | 把立場轉成 skill 清單，以及 skill 之間的關係 | **核准**架構 |
-| 4. 撰寫 | 逐一寫 skill，必要時回原文借用寫法 | **抽查**草稿 |
-| 5. 試用 | 在真實專案中使用，記錄哪裡卡住、哪裡不順 | **提供素材**：真實使用的經驗 |
-| 6. 修正 | 判斷問題出在哪一層：措辭、架構，還是立場 | 若是立場有問題，**回到第 2 階段** |
+| 0. Choose sources | List candidate skill sets and what sets each apart | **Decide** which to ingest |
+| 1. Extract dimensions | Ingest the sources (see "Ingestion" below) and update the catalog | **Confirm** the list of dimensions: add, remove or merge |
+| 2. Take positions | Offer 2–3 options with trade-offs for each dimension | **Decide** a position: A, B, a mix, or your own. This step is always the user's |
+| 3. Design skill architecture | Turn the positions into a list of skills and how they relate | **Approve** the architecture |
+| 4. Write skills | Write the skills one by one, going back to the originals for wording when needed | **Spot-check** drafts |
+| 5. Use them | Record where things got stuck or felt wrong in real projects | **Supply material**: real usage that only the user has |
+| 6. Revise | Work out which layer the problem is in: wording, architecture or position | If a position was wrong, **go back to phase 2** |
 
-## 來源的生命週期：收錄一次，之後用面向庫
+## Source lifecycle: ingest once, then use the catalog
 
-既有的 skill set 不需要每次都重讀。每一套來源只經過一次「收錄」，就轉成面向庫裡的條目：
+Existing skill sets are not re-read every time. Each source goes through one ingestion and becomes entries in the catalog:
 
-1. **抓取**：在 `scripts/sources.json` 加入來源（網址、固定 commit、授權、要排除的路徑），執行 `python scripts/fetch_sources.py <名稱>`，並更新 `docs/sources.md`。先查授權：禁止保留副本的內容不要抓。原始檔只在本機，不進 repo。
-2. **完整閱讀**：逐篇讀 SKILL.md 以及它引用的檔案。不能只看目錄頁或 README。
-3. **對應**：把來源的每個做法對應到既有面向，寫成立場，並附上出處。
-4. **擴充**：如果發現既有面向涵蓋不到的設計問題，就新增面向，並回頭補上其他來源在這個新面向上的立場（可標「未涉及」）。
-5. **標記完成**：在 `docs/sources.md` 把狀態改成「已收錄」。
+1. **Fetch**: Add the source to `scripts/sources.json` (URL, pinned commit, license, paths to exclude), run `python scripts/fetch_sources.py <name>`, and update `docs/sources.md`. Check the license first: do not fetch anything whose license forbids keeping copies. Fetched files stay local and are never committed.
+2. **Read in full**: Read every SKILL.md and the files it references. Catalog pages and READMEs are not enough.
+3. **Map**: Map each practice in the source onto an existing dimension as a position, with a citation.
+4. **Extend**: If the source answers a design question no existing dimension covers, add a dimension and fill in the other sources' positions on it (marking "not addressed" where needed).
+5. **Mark done**: Set the source's status in `docs/sources.md` to "ingested".
 
-收錄之後：
+After ingestion:
 
-- 第 1–3 階段只用面向庫。
-- 新增一套來源時，只要對這套來源跑一次收錄流程，不必重讀舊來源。
-- 只有兩種情況需要回原文：第 4 階段要借用具體的寫法或結構；或者面向庫的摘要不足以讓使用者做決定。
+- Phases 1–3 work from the catalog only.
+- Adding a source means running ingestion for that source only; older sources are not re-read.
+- Go back to the originals in only two cases: phase 4 needs specific wording or structure, or a catalog summary is not enough for the user to decide.
 
-取捨：整理一定會遺失細節。所以每個立場都必須附上出處，讓人隨時能追溯回原文。
+Trade-off: summarizing always loses detail, so every position must cite its origin and stay traceable to the original.
 
-## 延伸到其他領域
+## Extending to another domain
 
-1. 通用面向直接沿用，使用者已選定的立場也可以沿用，或在新領域另外調整。
-2. 為新領域選來源（第 0 階段），再抽出領域面向（第 1 階段）。
-3. 其餘階段照常進行。
+1. Reuse the general dimensions. The user's positions on them can carry over or be adjusted for the new domain.
+2. Choose sources for the new domain (phase 0) and extract its domain dimensions (phase 1).
+3. Continue with the remaining phases as usual.

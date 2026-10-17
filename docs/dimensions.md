@@ -1,44 +1,44 @@
-# 面向庫
+# Dimension catalog
 
-> **版本 v0（2026-10-17）**：只根據目錄頁與說明頁整理，還不是完整閱讀的結果。四套來源都要經過完整收錄（見 `docs/method.md`）才能當作定立場的依據。標「待驗證」的是 Claude 的推論，尚未對照原文確認。
+> **Version v0 (2026-10-17)**: Based only on catalog and description pages, not on a full reading. All four sources must go through full ingestion (see `docs/method.md`) before this can support decisions. Items marked "unverified" are Claude's inferences, not yet checked against the originals.
 
-類別：**通用** = 換領域仍適用；**領域** = 寫程式特有。
+Kind: **General** = carries over to other domains; **Domain** = specific to coding.
 
-## 總覽
+## Overview
 
-來源縮寫：**Matt** = Matt Pocock skills；**pstack**；**A-skills** = Anthropic skills；**CC** = Anthropic Claude Code plugins。CC 欄只根據各 plugin 的說明整理。
+Source abbreviations: **Matt** = Matt Pocock skills; **pstack**; **A-skills** = Anthropic skills; **CC** = Anthropic Claude Code plugins. The CC column is based only on each plugin's description.
 
-| # | 面向 | 類別 | Matt | pstack | A-skills | CC | 我的立場 |
+| # | Dimension | Kind | Matt | pstack | A-skills | CC | My position |
 |---|---|---|---|---|---|---|---|
-| 1 | 角色與決定權 | 通用 | 使用者是技術主管，agent 先追問再執行 | agent 是有原則的資深工程師，自主判斷 | agent 是帶著工具箱的專門技術者，聽目標做事 | 多種並存：`learning-output-style` 在決策點請使用者自己寫程式；`ralph-wiggum` 讓 agent 不停迴圈直到完成 | 待定 |
-| 2 | 進入與觸發（誰觸發：只有使用者／只有 Claude／兩者） | 通用 | 多個由使用者呼叫的 command，另有 `/ask-matt` 幫忙選 | 一個常駐的 mode skill 自動分派 playbook | 各 skill 獨立，靠 description 由 Claude 自動觸發 | 多為使用者呼叫的 command，加上自動觸發的 hook | 待定 |
-| 3 | 規劃深度 | 領域 | 重：grill → spec → tickets | 輕：不寫規劃 skill，用 plan mode | 一般不涉及；`doc-coauthoring` 有分階段的流程 | `feature-dev`：探索 → 架構設計 → 實作 → 品質審查（待驗證） | 待定 |
-| 4 | 需求釐清 | 通用 | 訪談式追問（`/grilling`） | 依 playbook 的步驟走 | `skill-creator` 會先訪談意圖（待驗證） | `feature-dev` 有釐清問題的步驟（待驗證） | 待定 |
-| 5 | 工作切分方式 | 領域 | 依開發**階段** | 依**任務類型**（bug、perf、refactor…） | 依**能力或產出格式**（docx、MCP、網頁測試…） | 依**單一工作環節**（commit、PR review、安全檢查） | 待定 |
-| 6 | 產出物與記錄 | 通用 | spec、tickets、領域詞彙表 | todo list | 具體檔案；`skill-creator` 產出 eval 結果 | commit、PR、review 意見 | 待定 |
-| 7 | 實作紀律 | 領域 | TDD、deep module | TDD、先刪再加、不寫註解、unslop | 各工具的最佳做法，附帶可執行的腳本 | `security-guidance` 在編輯時提出安全警告；`hookify` 用 hook 擋下不想要的行為 | 待定 |
-| 8 | 驗證方式 | 領域 | 對照標準與 spec 做 code review | 證明它真的能跑 | `webapp-testing` 用 Playwright 實測；`skill-creator` 跑 eval | `code-review`：多個專門 agent 審查並給信心分數；`pr-review-toolkit` 分項審查（測試、錯誤處理、型別…） | 待定 |
-| 9 | 委派與多 agent | 領域 | `/implement-spec` 用平行 subagent | arena、swarm 多模型協作；角色對應模型 | `skill-creator` 用 subagent 平行跑 eval（待驗證） | 大量使用專門 subagent（探索、架構、審查） | 待定 |
-| 10 | Context 與交接 | 通用 | `/handoff` | 保護 context window（原則 skill） | 漸進載入：SKILL.md 之外的參考檔與腳本需要時才讀 | 把工作分給 subagent，主對話只拿結果（待驗證） | 待定 |
-| 11 | 溝通風格 | 通用 | `/wait-what` 用白話重講 | 以使用者與維護者為對象；technical-writing | `doc-coauthoring` 讓讀者測試文件（待驗證）；`internal-comms` 用固定格式 | `explanatory-output-style` 解釋實作選擇；`learning-output-style` 教學模式 | 待定 |
-| 12 | 自我改進 | 通用 | `/retro` | `reflect`；`automate-me` 從對話紀錄生成個人 skill | `skill-creator`：用 eval 迭代、最佳化 description | `hookify` 從對話模式產生 hook | 待定 |
-| 13 | 每個 repo／組織的設定 | 通用 | `/setup-matt-pocock-skills` | `/setup-pstack`：推理預算、模型分工 | 把組織設定寫進 skill 本身（`brand-guidelines`、`internal-comms`） | 未見專門的設定 plugin（待驗證） | 待定 |
-| 14 | Skill 的類型與顆粒度 | 通用 | **流程** skill（依階段）＋**參考** skill | **playbook**（依任務）＋**原則** skill（一條原則一個） | **能力** skill（一種工具或格式一個，附腳本） | **環節** plugin（一個工作環節一個） | 待定 |
-| 15 | 執行載體（skill／subagent／hook） | 通用 | 以 skill 為主（含舊格式 command） | 以 skill 為主，另有 subagent | 只有 skill | skill（含舊格式 command）、subagent、hook 混用；hook 能**強制**執行，不靠 agent 自覺 | 待定 |
+| 1 | Roles and authority | General | The user is the tech lead; the agent questions first, then executes | The agent is a principled senior engineer and judges for itself | The agent is a specialist with a toolkit and works toward the stated goal | Several coexist: `learning-output-style` asks the user to write code at decision points; `ralph-wiggum` loops the agent until done | TBD |
+| 2 | Entry and triggering (who triggers: user only / Claude only / both) | General | Many user-invoked commands, plus `/ask-matt` to pick one | One sticky mode skill routes to playbooks automatically | Independent skills, triggered automatically by Claude from their descriptions | Mostly user-invoked commands, plus automatic hooks | TBD |
+| 3 | Planning depth | Domain | Heavy: grill → spec → tickets | Light: no planning skill; uses plan mode | Mostly not addressed; `doc-coauthoring` has a staged flow | `feature-dev`: explore → design architecture → implement → quality review (unverified) | TBD |
+| 4 | Clarifying requirements | General | Interview-style questioning (`/grilling`) | Follows the playbook's steps | `skill-creator` interviews for intent first (unverified) | `feature-dev` includes a clarifying-questions step (unverified) | TBD |
+| 5 | How work is split | Domain | By development **phase** | By **task type** (bug, perf, refactor, …) | By **capability or output format** (docx, MCP, web testing, …) | By **single step of the workflow** (commit, PR review, security check) | TBD |
+| 6 | Artifacts and records | General | Specs, tickets, domain glossary | Todo list | Concrete files; `skill-creator` produces eval results | Commits, PRs, review comments | TBD |
+| 7 | Implementation discipline | Domain | TDD, deep modules | TDD, delete before adding, no comments, unslop | Tool-specific best practices with bundled scripts | `security-guidance` warns on edits; `hookify` blocks unwanted behavior with hooks | TBD |
+| 8 | Verification | Domain | Code review against standards and the spec | Prove it works | `webapp-testing` runs real Playwright checks; `skill-creator` runs evals | `code-review`: several specialized agents with confidence scores; `pr-review-toolkit` reviews by aspect (tests, error handling, types, …) | TBD |
+| 9 | Delegation and multiple agents | Domain | `/implement-spec` uses parallel subagents | arena and swarm multi-model workflows; models mapped to roles | `skill-creator` runs evals in parallel subagents (unverified) | Heavy use of specialized subagents (explore, architect, review) | TBD |
+| 10 | Context and handoff | General | `/handoff` | Guard the context window (principle skill) | Progressive loading: reference files and scripts beyond SKILL.md are read only when needed | Work goes to subagents; the main conversation gets only results (unverified) | TBD |
+| 11 | Communication style | General | `/wait-what` restates in plain English | Written for the consumer and maintainer of the work; technical-writing | `doc-coauthoring` has readers test the document (unverified); `internal-comms` uses fixed formats | `explanatory-output-style` explains implementation choices; `learning-output-style` teaches | TBD |
+| 12 | Self-improvement | General | `/retro` | `reflect`; `automate-me` drafts a personal skill from transcripts | `skill-creator`: iterate with evals, optimize descriptions | `hookify` creates hooks from conversation patterns | TBD |
+| 13 | Per-repo / per-org setup | General | `/setup-matt-pocock-skills` | `/setup-pstack`: reasoning budget, model roles | Org settings written into the skill itself (`brand-guidelines`, `internal-comms`) | No dedicated setup plugin seen (unverified) | TBD |
+| 14 | Skill type and granularity | General | **Process** skills (by phase) + **reference** skills | **Playbooks** (by task) + **principle** skills (one principle each) | **Capability** skills (one tool or format each, with scripts) | **Step** plugins (one workflow step each) | TBD |
+| 15 | Mechanism (skill / subagent / hook) | General | Mostly skills (including legacy commands) | Mostly skills, plus subagents | Skills only | Skills (including legacy commands), subagents and hooks; hooks **enforce** behavior instead of relying on the agent to remember | TBD |
 
-> 註：Claude Code 已把自訂 slash command 併入 skill（`.claude/commands/x.md` 與 `.claude/skills/x/SKILL.md` 都產生 `/x`，行為相同；新的一律寫成 skill）。所以「slash command」不再是獨立的載體，而是第 2 面向的觸發方式：用 frontmatter 的 `disable-model-invocation: true`（只有使用者能呼叫）或 `user-invocable: false`（只有 Claude 能載入）控制。來源：https://code.claude.com/docs/en/skills
+> Note: Claude Code has merged custom slash commands into skills (`.claude/commands/x.md` and `.claude/skills/x/SKILL.md` both create `/x` and behave the same; new work should be skills). So "slash command" is no longer a separate mechanism; it is a triggering option under dimension 2, controlled by the frontmatter fields `disable-model-invocation: true` (user only) and `user-invocable: false` (Claude only). Source: https://code.claude.com/docs/en/skills
 
-## 各面向細節
+## Dimension details
 
-各面向的詳細立場、出處和取捨，會在第 1 階段完整收錄時補上。格式如下：
+Detailed positions, citations and trade-offs for each dimension are added during full ingestion in phase 1. Format:
 
 ```
-### N. 面向名稱
-- 定義：這個面向要回答的設計問題
-- 類別：通用／領域
-- 立場：
-  - A（來源，skill，檔案路徑）：說明
-  - B（…）：說明
-- 取捨：
-- 我的立場：待定（決定後連結到 ADR）
+### N. Dimension name
+- Definition: the design question this dimension answers
+- Kind: General / Domain
+- Positions:
+  - A (source, skill, file path): description
+  - B (...): description
+- Trade-offs:
+- My position: TBD (link to the ADR once decided)
 ```
