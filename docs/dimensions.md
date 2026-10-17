@@ -11,7 +11,7 @@
 | # | 面向 | 類別 | Matt | pstack | A-skills | CC | 我的立場 |
 |---|---|---|---|---|---|---|---|
 | 1 | 角色與決定權 | 通用 | 使用者是技術主管，agent 先追問再執行 | agent 是有原則的資深工程師，自主判斷 | agent 是帶著工具箱的專門技術者，聽目標做事 | 多種並存：`learning-output-style` 在決策點請使用者自己寫程式；`ralph-wiggum` 讓 agent 不停迴圈直到完成 | 待定 |
-| 2 | 進入與觸發 | 通用 | 多個 slash command，另有 `/ask-matt` 幫忙選 | 一個常駐的 mode skill 自動分派 playbook | 各 skill 獨立，靠 description 自動觸發，沒有分派者 | slash command 為主，加上自動觸發的 hook | 待定 |
+| 2 | 進入與觸發（誰觸發：只有使用者／只有 Claude／兩者） | 通用 | 多個由使用者呼叫的 command，另有 `/ask-matt` 幫忙選 | 一個常駐的 mode skill 自動分派 playbook | 各 skill 獨立，靠 description 由 Claude 自動觸發 | 多為使用者呼叫的 command，加上自動觸發的 hook | 待定 |
 | 3 | 規劃深度 | 領域 | 重：grill → spec → tickets | 輕：不寫規劃 skill，用 plan mode | 一般不涉及；`doc-coauthoring` 有分階段的流程 | `feature-dev`：探索 → 架構設計 → 實作 → 品質審查（待驗證） | 待定 |
 | 4 | 需求釐清 | 通用 | 訪談式追問（`/grilling`） | 依 playbook 的步驟走 | `skill-creator` 會先訪談意圖（待驗證） | `feature-dev` 有釐清問題的步驟（待驗證） | 待定 |
 | 5 | 工作切分方式 | 領域 | 依開發**階段** | 依**任務類型**（bug、perf、refactor…） | 依**能力或產出格式**（docx、MCP、網頁測試…） | 依**單一工作環節**（commit、PR review、安全檢查） | 待定 |
@@ -24,7 +24,9 @@
 | 12 | 自我改進 | 通用 | `/retro` | `reflect`；`automate-me` 從對話紀錄生成個人 skill | `skill-creator`：用 eval 迭代、最佳化 description | `hookify` 從對話模式產生 hook | 待定 |
 | 13 | 每個 repo／組織的設定 | 通用 | `/setup-matt-pocock-skills` | `/setup-pstack`：推理預算、模型分工 | 把組織設定寫進 skill 本身（`brand-guidelines`、`internal-comms`） | 未見專門的設定 plugin（待驗證） | 待定 |
 | 14 | Skill 的類型與顆粒度 | 通用 | **流程** skill（依階段）＋**參考** skill | **playbook**（依任務）＋**原則** skill（一條原則一個） | **能力** skill（一種工具或格式一個，附腳本） | **環節** plugin（一個工作環節一個） | 待定 |
-| 15 | 執行載體 | 通用 | 以 skill 為主 | 以 skill 為主，另有 subagent | 只有 skill | skill、slash command、subagent、hook 混用；hook 能**強制**執行，不靠 agent 自覺 | 待定 |
+| 15 | 執行載體（skill／subagent／hook） | 通用 | 以 skill 為主（含舊格式 command） | 以 skill 為主，另有 subagent | 只有 skill | skill（含舊格式 command）、subagent、hook 混用；hook 能**強制**執行，不靠 agent 自覺 | 待定 |
+
+> 註：Claude Code 已把自訂 slash command 併入 skill（`.claude/commands/x.md` 與 `.claude/skills/x/SKILL.md` 都產生 `/x`，行為相同；新的一律寫成 skill）。所以「slash command」不再是獨立的載體，而是第 2 面向的觸發方式：用 frontmatter 的 `disable-model-invocation: true`（只有使用者能呼叫）或 `user-invocable: false`（只有 Claude 能載入）控制。來源：https://code.claude.com/docs/en/skills
 
 ## 各面向細節
 
