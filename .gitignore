@@ -1,0 +1,4 @@
+# 第三方原始檔只抓到本機，不進 repo（ADR 0004）
+sources/*
+!sources/README.md
+__pycache__/

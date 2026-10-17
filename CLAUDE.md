@@ -23,7 +23,7 @@
 0. 選來源 → 1. 抽面向 → 2. 定立場 → 3. 設計 skill 架構 → 4. 撰寫 → 5. 試用 → 6. 修正
 
 - 既有的 skill set **只在收錄時完整讀一次**，整理進面向庫 `docs/dimensions.md` 之後，第 1–3 階段只用面向庫。
-- 原始檔放在 `sources/`，記下固定的 commit，作為追溯用的存檔。只有在第 4 階段要借用具體寫法，或面向庫的摘要不足以做決定時，才回頭查原文。
+- 原始檔用 `python scripts/fetch_sources.py` 抓到 `sources/`（只在本機，不進 repo），以固定的 commit 追溯原文。只有在第 4 階段要借用具體寫法，或面向庫的摘要不足以做決定時，才回頭查原文。
 
 ## 目錄結構
 
@@ -34,18 +34,24 @@ docs/dimensions.md   面向庫：各面向、各來源的立場、使用者的�
 docs/sources.md      來源清單：網址、作者、授權、固定的 commit、收錄狀態
 docs/decisions/      ADR
 docs/sessions/       每次 session 的紀錄
-sources/<來源>/      原始 skill 存檔，唯讀，不修改
+sources/<來源>/      第三方原始檔，只在本機（git-ignored），唯讀
+scripts/             fetch_sources.py 與 sources.json（來源、commit、授權）
+LICENSE              MIT
+THIRD_PARTY_NOTICES.md  借用第三方內容時的版權與授權聲明
 skills/<領域>/       使用者自己的 skill-set
 evals/               skill 的測試
 ```
 
 ## 規則
 
-- `sources/` 內的檔案不修改；更新時重新抓取，並在 `docs/sources.md` 更新 commit。
+- **授權（ADR 0004）**：第三方原始檔絕不 commit。`sources/` 內的檔案不修改；更新來源時改 `scripts/sources.json` 的 commit 後重新抓取。
+- 借用 MIT／Apache 來源的寫法：在該 skill 資料夾註明出處，並更新 `THIRD_PARTY_NOTICES.md`（Apache 還要註明修改內容）。
+- 非開源來源（Claude Code plugins）：只借用想法，不複製任何文字或程式碼；面向庫中也盡量不引用原文。
 - 面向庫裡的每個立場都要標出處（來源、skill 名稱、檔案路徑），讓人能追溯回原文。
 - 寫進 `skills/` 的每個 skill，都要在檔案中註明參考了哪些面向和來源。
 - Claude 自己的推論與來源原文要分開寫，推論需標明。
 
-## 未決事項
+## GitHub
 
-- GitHub repo：使用者已決定推到 GitHub，等連結 GitHub 帳號後建立。名稱與公開／私人待確認（Claude 建議私人：`sources/` 會存放 source-available 的檔案）。
+- 公開 repo：https://github.com/redyi017/skill-customizer
+- Claude 在雲端環境推送時，透過 git bundle 把本機 commit 帶到雲端再 push。使用者也可以直接在自己的電腦上 `git push`。
