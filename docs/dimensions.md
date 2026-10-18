@@ -12,7 +12,15 @@ Shared across sources (ADR 0008). Phase 2 starts here: the user picks the proble
 
 | # | Problem | Dimensions that serve it | Solved by |
 |---|---|---|---|
-| | _(filled in during ingestion)_ | | |
+| P1 | The agent didn't do what I want (misalignment) | 4, 1 | Matt |
+| P2 | The agent is too verbose (no shared language) | 11, 6 | Matt |
+| P3 | The code doesn't work (no feedback loops) | 7, 8 | Matt |
+| P4 | We built a ball of mud (entropy) | 7, (maintenance, held) | Matt |
+| P5 | Context lost between sessions and phases (inferred) | 10 | Matt |
+| P6 | Work too big for one session (inferred) | 3, 5, 9 | Matt |
+| P7 | Raw incoming issues pile up (inferred) | 2, 6 | Matt |
+| P8 | The agent's environment never improves (inferred) | 12 | Matt |
+| P9 | Steps only a human or another person can do (inferred) | 1 | Matt |
 
 ## Overview
 
