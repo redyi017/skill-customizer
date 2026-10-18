@@ -14,10 +14,12 @@ Repo build-up. Phase 0 (choose sources) is done; phase 1 (extract dimensions) ha
 
 ## Open questions
 
-From the `mattpocock-skills` outline, to settle against the new problem-first structure:
+None.
 
-- Candidate new dimensions: 16 where work state lives, 17 unattended vs. human-in-the-loop work, 18 shared language, 19 portability across harnesses, 20 maintenance (code and environment).
-- The user said `improve-codebase-architecture` is a key loop beside the main flow: record it as a provisional position on dimension 20, or leave it for phase 2?
+## Decided, waiting to be applied
+
+- Candidate dimensions 16–20 (work state, unattended vs. human-in-the-loop, shared language, portability, maintenance) are held until all four sources are ingested, then added or merged together.
+- Provisional user position (origin `user`), to attach to the maintenance dimension when it is added: `improve-codebase-architecture` is a key loop beside the main grill → spec → tickets → implement flow, not an optional side tool.
 
 ## Next step
 
