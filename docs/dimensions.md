@@ -1,5 +1,7 @@
 # Dimension catalog
 
+> **Version v0.1 (2026-10-18)**: Matt column, coupling notes and Matt's dimension details checked against a full read of `mattpocock-skills` @ `49dd158`. Other columns still from v0.
+>
 > **Version v0 (2026-10-17)**: Based only on catalog and description pages, not on a full reading. All four sources must go through full ingestion (see `docs/method.md`) before this can support decisions. Items marked "unverified" are Claude's inferences, not yet checked against the originals.
 
 Kind: **General** = carries over to other domains; **Domain** = specific to coding.
@@ -29,14 +31,14 @@ Source abbreviations: **Matt** = Matt Pocock skills; **pstack**; **A-skills** = 
 | # | Dimension | Kind | Matt | pstack | A-skills | CC | My position |
 |---|---|---|---|---|---|---|---|
 | 1 | Roles and authority | General | The user is the tech lead; the agent questions first, then executes | The agent is a principled senior engineer and judges for itself | The agent is a specialist with a toolkit and works toward the stated goal | Several coexist: `learning-output-style` asks the user to write code at decision points; `ralph-wiggum` loops the agent until done | TBD |
-| 2 | Entry and triggering (who triggers: user only / Claude only / both) | General | Many user-invoked commands, plus `/ask-matt` to pick one | One sticky mode skill routes to playbooks automatically | Independent skills, triggered automatically by Claude from their descriptions | Mostly user-invoked commands, plus automatic hooks | TBD |
+| 2 | Entry and triggering (who triggers: user only / Claude only / both) | General | Split by who may invoke: user-invoked skills orchestrate, model-invoked skills hold discipline; an orchestrator never calls another orchestrator; `/ask-matt` routes | One sticky mode skill routes to playbooks automatically | Independent skills, triggered automatically by Claude from their descriptions | Mostly user-invoked commands, plus automatic hooks | TBD |
 | 3 | Planning depth | Domain | Heavy: grill → spec → tickets | Light: no planning skill; uses plan mode | Mostly not addressed; `doc-coauthoring` has a staged flow | `feature-dev`: explore → design architecture → implement → quality review (unverified) | TBD |
 | 4 | Clarifying requirements | General | Interview-style questioning (`/grilling`) | Follows the playbook's steps | `skill-creator` interviews for intent first (unverified) | `feature-dev` includes a clarifying-questions step (unverified) | TBD |
 | 5 | How work is split | Domain | By development **phase** | By **task type** (bug, perf, refactor, …) | By **capability or output format** (docx, MCP, web testing, …) | By **single step of the workflow** (commit, PR review, security check) | TBD |
-| 6 | Artifacts and records | General | Specs, tickets, domain glossary | Todo list | Concrete files; `skill-creator` produces eval results | Commits, PRs, review comments | TBD |
+| 6 | Artifacts and records | General | Specs and tickets on the tracker, `GLOSSARY.md`, ADRs, HTML architecture report, handoff files, cited research notes | Todo list | Concrete files; `skill-creator` produces eval results | Commits, PRs, review comments | TBD |
 | 7 | Implementation discipline | Domain | TDD, deep modules | TDD, delete before adding, no comments, unslop | Tool-specific best practices with bundled scripts | `security-guidance` warns on edits; `hookify` blocks unwanted behavior with hooks | TBD |
 | 8 | Verification | Domain | Code review against standards and the spec | Prove it works | `webapp-testing` runs real Playwright checks; `skill-creator` runs evals | `code-review`: several specialized agents with confidence scores; `pr-review-toolkit` reviews by aspect (tests, error handling, types, …) | TBD |
-| 9 | Delegation and multiple agents | Domain | `/implement-spec` uses parallel subagents | arena and swarm multi-model workflows; models mapped to roles | `skill-creator` runs evals in parallel subagents (unverified) | Heavy use of specialized subagents (explore, architect, review) | TBD |
+| 9 | Delegation and multiple agents | Domain | `/implement-spec` runs implementer subagents across the ready-ticket frontier; `code-review` runs two parallel review subagents; `research` runs as a background agent | arena and swarm multi-model workflows; models mapped to roles | `skill-creator` runs evals in parallel subagents (unverified) | Heavy use of specialized subagents (explore, architect, review) | TBD |
 | 10 | Context and handoff | General | `/handoff` | Guard the context window (principle skill) | Progressive loading: reference files and scripts beyond SKILL.md are read only when needed | Work goes to subagents; the main conversation gets only results (unverified) | TBD |
 | 11 | Communication style | General | `/wait-what` restates in plain English | Written for the consumer and maintainer of the work; technical-writing | `doc-coauthoring` has readers test the document (unverified) | `explanatory-output-style` explains implementation choices; `learning-output-style` teaches | TBD |
 | 12 | Self-improvement | General | `/retro` | `reflect`; `automate-me` drafts a personal skill from transcripts | `skill-creator`: iterate with evals, optimize descriptions | `hookify` creates hooks from conversation patterns | TBD |
@@ -52,7 +54,13 @@ Positions that depend on or conflict with each other (ADR 0006). Filled in durin
 
 | Dimensions | Note | Source |
 |---|---|---|
-| 1, 3, 6 | Example (unverified, from catalog pages): "user as tech lead", heavy planning and spec/ticket artifacts form one package. The implement step consumes tickets, so dropping the planning steps leaves it without input. | Matt |
+| 1, 3, 6 | User as decider, heavy planning and spec/ticket artifacts form one package. `implement` consumes tickets, so dropping `to-spec`/`to-tickets` leaves multi-session builds without input. | Matt, `skills/engineering/ask-matt/SKILL.md` |
+| 6, 10 | `/clear` between tickets works only because each ticket is self-contained. | Matt, `ask-matt/SKILL.md` |
+| 3, 8 | `code-review`'s Spec axis needs an originating spec or issue; without one it skips. | Matt, `skills/engineering/code-review/SKILL.md` |
+| 4, 11 | (inferred) `wait-what` and concise vocabulary need the `GLOSSARY.md` that `grill-with-docs` builds; `grill-me` leaves none. | Matt, `ask-matt/SKILL.md` |
+| 2, 14, 15 | The invocation split is how process skills are kept apart from reference skills; the no-nesting rule depends on it. | Matt, `README.md` (Reference) |
+| 13, 6 | `setup-matt-pocock-skills` must run first; `triage`, `to-spec`, `to-tickets`, `code-review` read its tracker config. | Matt, `code-review/SKILL.md`, `implement-spec/SKILL.md` |
+| 7, 8 | Refactoring is moved out of the TDD loop into review; the reviewer, not the implementer, enforces coding standards (less context pressure). | Matt, `skills/engineering/tdd/SKILL.md`, `skills/engineering/retro/SKILL.md` |
 
 ## Dimension details
 
@@ -68,3 +76,140 @@ Detailed positions, citations and trade-offs for each dimension are added during
 - Trade-offs:
 - My position: TBD (link to the ADR once decided)
 ```
+
+Matt's positions below are from the full read (2026-10-18). Other sources are added when ingested.
+
+### 1. Roles and authority
+- Definition: Who decides what: the user, the agent, or both, and on which kinds of questions.
+- Kind: General
+- Positions:
+  - Matt: The user decides; the agent finds facts. In grilling, facts are the agent's job (it dispatches subagents to look things up), decisions are the user's, and it does not act until the user confirms shared understanding (`skills/productivity/grilling/SKILL.md`). TDD seams are confirmed with the user before any test (`skills/engineering/tdd/SKILL.md`).
+  - Trade-offs (Matt-only view, revisit after other sources):
+    - Keeps the user in control and catches misalignment early; costs user attention on every change.
+- My position: TBD
+
+### 2. Entry and triggering
+- Definition: Who triggers each skill: user only, Claude only, or both.
+- Kind: General
+- Positions:
+  - Matt: Two classes. User-invoked (`disable-model-invocation: true`) orchestrate; model-invoked hold reusable discipline and can also be typed. A user-invoked skill may call model-invoked ones, never another user-invoked one. `ask-matt` is a router (`README.md`, Reference; `skills/engineering/ask-matt/SKILL.md`).
+  - Trade-offs (Matt-only view, revisit after other sources):
+    - Predictable: the process never starts by itself. The user must know or ask which skill to type.
+- My position: TBD
+
+### 3. Planning depth
+- Definition: How much planning happens before code, and in what form.
+- Kind: Domain
+- Positions:
+  - Matt: Scaled to size: single-session work goes grill → implement; multi-session work goes grill → `to-spec` → `to-tickets` → implement; foggy, huge efforts go through `wayfinder` first (`ask-matt/SKILL.md`).
+  - Trade-offs (Matt-only view, revisit after other sources):
+    - Plans match the work's size; three tiers to learn, and the user picks the tier.
+- My position: TBD
+
+### 4. Clarifying requirements
+- Definition: How the agent closes the gap between what the user said and what they want.
+- Kind: General
+- Positions:
+  - Matt: Relentless interview over a design tree, in rounds: ask the whole frontier, numbered, each with a recommended answer worded so "yes" accepts it; done when the frontier is empty (`skills/productivity/grilling/SKILL.md`).
+  - Trade-offs (Matt-only view, revisit after other sources):
+    - Thorough and fast to answer; long sessions for small changes. Matt says use it every time (`README.md` #1).
+- My position: TBD
+
+### 5. How work is split
+- Definition: The axis along which skills are cut.
+- Kind: Domain
+- Positions:
+  - Matt: By development phase (align, spec, tickets, build, review, retro), plus on-ramps by situation (triage, bugs, wayfinder) (`ask-matt/SKILL.md`).
+  - Trade-offs (Matt-only view, revisit after other sources):
+    - Clear hand-offs between phases; task-type knowledge (e.g. perf work) has no home of its own.
+- My position: TBD
+
+### 6. Artifacts and records
+- Definition: What the workflow writes down, and where.
+- Kind: General
+- Positions:
+  - Matt: Specs and tickets on the issue tracker (or local files), `GLOSSARY.md`, ADRs, HTML architecture report, handoff files in the OS temp dir (not the repo), cited research notes in the repo (`to-spec`, `to-tickets`, `domain-modeling`, `handoff`, `research` SKILL.md files).
+  - Trade-offs (Matt-only view, revisit after other sources):
+    - Durable, reviewable trail that later phases consume; requires a tracker setup and some ceremony.
+- My position: TBD
+
+### 7. Implementation discipline
+- Definition: Rules the agent follows while writing code.
+- Kind: Domain
+- Positions:
+  - Matt: TDD with vertical slices at pre-agreed seams; tests through public interfaces; refactoring is not part of the loop; deep modules via `codebase-design` vocabulary (`skills/engineering/tdd/SKILL.md`, `skills/engineering/codebase-design/SKILL.md`).
+  - Trade-offs (Matt-only view, revisit after other sources):
+    - High-quality tests and design; slower start, and seams need user confirmation.
+- My position: TBD
+
+### 8. Verification
+- Definition: How the work is checked before it is done.
+- Kind: Domain
+- Positions:
+  - Matt: Two-axis review of the diff since a fixed point: Standards (repo standards plus a Fowler smell baseline, repo overrides) and Spec (matches the originating issue), as parallel subagents. PR bodies carry before/after evidence (`skills/engineering/code-review/SKILL.md`, `skills/engineering/pr/SKILL.md`).
+  - Trade-offs (Matt-only view, revisit after other sources):
+    - Separates "is it good code" from "is it the right code"; the Spec axis needs a spec to exist.
+- My position: TBD
+
+### 9. Delegation and multiple agents
+- Definition: When and how work is sent to other agents.
+- Kind: Domain
+- Positions:
+  - Matt: Subagents for fact-finding in grilling, parallel review axes, background research, and `implement-spec`'s implementer subagents (own worktree each), merger subagent and exploration subagent; communication via context pointers, not copies (`skills/engineering/implement-spec/SKILL.md`).
+  - Trade-offs (Matt-only view, revisit after other sources):
+    - Concurrency and clean contexts; merge coordination and harder debugging.
+- My position: TBD
+
+### 10. Context and handoff
+- Definition: How context is preserved or reset across phases and sessions.
+- Kind: General
+- Positions:
+  - Matt: Decide only at phase boundaries, in order: continue → `/clear` → `/handoff` (only for a new harness, directory, colleague, or a side fork) → subagent → `/compact` (default, last). Keep grill → spec → tickets in one window (`ask-matt/PHASE-BOUNDARIES.md`).
+  - Trade-offs (Matt-only view, revisit after other sources):
+    - Explicit and cheap-first; relies on the user judging the boundaries.
+- My position: TBD
+
+### 11. Communication style
+- Definition: How the agent talks to the user.
+- Kind: General
+- Positions:
+  - Matt: Concise via a shared domain language in `GLOSSARY.md`; `wait-what` re-pitches a missed message in plain English (`README.md` #2; `skills/productivity/wait-what/SKILL.md`).
+  - Trade-offs (Matt-only view, revisit after other sources):
+    - Fewer words, consistent naming in code; needs the glossary to be built and kept up.
+- My position: TBD
+
+### 12. Self-improvement
+- Definition: How the workflow gets better over time.
+- Kind: General
+- Positions:
+  - Matt: `retro` suggests environment changes after a session, most severe first, across navigation, automated checks, coding standards, AGENTS.md, tool economy, no-ops and information access; mechanical mistakes become deterministic checks, judgement calls become coding standards (`skills/engineering/retro/SKILL.md`).
+  - Trade-offs (Matt-only view, revisit after other sources):
+    - Improves the environment, not the skills; suggestions only, the user applies them.
+- My position: TBD
+
+### 13. Per-repo / per-org setup
+- Definition: How the skills learn about a specific repo.
+- Kind: General
+- Positions:
+  - Matt: `setup-matt-pocock-skills`, once per repo: issue tracker (GitHub, GitLab, local, or custom), triage labels, doc locations (`skills/engineering/setup-matt-pocock-skills/SKILL.md`).
+  - Trade-offs (Matt-only view, revisit after other sources):
+    - Skills stay generic; one more step before the first use.
+- My position: TBD
+
+### 14. Skill type and granularity
+- Definition: What kinds of skills exist and how big each is.
+- Kind: General
+- Positions:
+  - Matt: Process skills (user-invoked orchestrators) plus reference skills (model-invoked discipline and vocabulary, e.g. `codebase-design`, `domain-modeling`, `tdd`); small and composable by design (`README.md`).
+  - Trade-offs (Matt-only view, revisit after other sources):
+    - Easy to swap one piece; the flow lives in `ask-matt`, not in the skills themselves.
+- My position: TBD
+
+### 15. Mechanism (skill / subagent / hook)
+- Definition: Which Claude Code mechanism carries each behavior.
+- Kind: General
+- Positions:
+  - Matt: Skills plus subagents; no hooks in the main flow (`git-guardrails-claude-code` in `misc/` is outside the documented flows). Enforcement comes from review and from checks that `retro` proposes.
+  - Trade-offs (Matt-only view, revisit after other sources):
+    - Portable across agents (Claude Code, Codex, Copilot, Gemini); nothing enforces behavior automatically.
+- My position: TBD
