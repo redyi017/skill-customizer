@@ -18,6 +18,7 @@ At the start of every session, read this file, then `docs/status.md`.
   - Every proposed file, folder or step carries a "used by phase N" label. No label, no item.
   - Every outline or proposal of something to build or change ends with a short **self-review** (not status updates or answers to questions): what the source's author would say is missing; what the proposed rules would accidentally forbid; whether it fits the session goal.
   - Profiles start with "Problems it solves" (template in `docs/workflows/README.md`).
+  - Each profile gets a visual report with a usage flowchart (ADR 0009).
 - **Communication (ADR 0008)**: Lead with a diagram whenever there is a structure or flow to show, then short points. Tables only for short cells. One line per option when asking for a decision.
 - **Record decisions**: Changes to the repo or the method become an ADR in `docs/decisions/NNNN-title.md` (Context / Options / Decision / Rationale). The user's positions on dimensions are recorded in `docs/dimensions.md` with a one-line reason each, not as ADRs (ADR 0007).
 
@@ -37,6 +38,7 @@ CLAUDE.md               Working agreement and repo rules (this file)
 docs/method.md          The method for building a workflow
 docs/dimensions.md      Dimension catalog: problem list, dimensions, each source's position, coupling notes, the user's position
 docs/workflows/         Workflow profile per source: steps, hand-offs, user checkpoints, loops
+docs/reports/           Visual report per source (HTML), derived from its profile (ADR 0009)
 docs/sources.md         Sources: license details, scope, ingestion status
 docs/status.md          Where we are, open questions, next step
 docs/decisions/         ADRs

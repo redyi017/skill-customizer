@@ -4,9 +4,10 @@ The single place to pick up from. Update it at the end of every session; git his
 
 ## Where we are
 
-Repo build-up. Phase 0 (choose sources) is done; phase 1 (extract dimensions) is under way. `mattpocock-skills` profile written (`docs/workflows/mattpocock-skills.md`), its 9 problems added to the shared list (P5–P9 marked as inferred), and its catalog entries written (Matt column corrected, 7 coupling notes, dimension details 1–15). `mattpocock-skills` ingestion is done.
+Repo build-up. Phase 0 (choose sources) is done; phase 1 (extract dimensions) is under way. `mattpocock-skills` profile written (`docs/workflows/mattpocock-skills.md`), its 9 problems added to the shared list (P5–P9 marked as inferred), and its catalog entries written (Matt column corrected, 7 coupling notes, dimension details 1–15). `mattpocock-skills` ingestion is done, with its visual report (`docs/reports/mattpocock-skills.html`).
 
-- Method, working agreement and licensing rules are in place (ADRs 0001–0008).
+- Method, working agreement and licensing rules are in place (ADRs 0001–0009).
+- ADR 0009: each source gets a visual report with a usage flowchart, derived from its profile.
 - ADR 0008: profiles start with the problems a source solves; a shared problem list in the catalog; built-in self-checks; diagrams first.
 - Four sources are configured and can be fetched with `python scripts/fetch_sources.py`.
 - Dimension catalog v0 has 15 dimensions, based only on catalog pages (`docs/dimensions.md`).
@@ -14,7 +15,7 @@ Repo build-up. Phase 0 (choose sources) is done; phase 1 (extract dimensions) is
 
 ## Open questions
 
-None.
+None. Method review after profile 1: problems-first order kept; inferred problems stay in the shared list.
 
 ## Decided, waiting to be applied
 

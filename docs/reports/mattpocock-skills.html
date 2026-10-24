@@ -1,0 +1,234 @@
+<title>Matt Pocock Skills Profile</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column; method strip, then problems matrix, flow, dimensions grid, coupling list */
+:root{
+  --bg:#f6f7f5; --surface:#ffffff; --fg:#1d2420; --muted:#5d6862; --line:#d9dfdb;
+  --accent:#2f6b4f; --accent-soft:#e2efe8; --inferred:#9a6a12; --inferred-soft:#f6ecd8;
+  --dev:#2f5f8f; --dev-soft:#e1ebf5; --maint:#7a4a8a; --maint-soft:#efe4f3;
+  --display:"Fraunces",Georgia,serif; --body:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141917; --surface:#1c2320; --fg:#e4ebe7; --muted:#9aa8a1; --line:#2f3934;
+  --accent:#7cc4a0; --accent-soft:#1f3a2d; --inferred:#e2b45c; --inferred-soft:#3a2e15;
+  --dev:#8fb8e6; --dev-soft:#1d2c3d; --maint:#c9a0d8; --maint-soft:#33243a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141917; --surface:#1c2320; --fg:#e4ebe7; --muted:#9aa8a1; --line:#2f3934;
+  --accent:#7cc4a0; --accent-soft:#1f3a2d; --inferred:#e2b45c; --inferred-soft:#3a2e15;
+  --dev:#8fb8e6; --dev-soft:#1d2c3d; --maint:#c9a0d8; --maint-soft:#33243a; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:15px/1.55 var(--body)}
+.wrap{max-width:1080px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:44px}
+h1,h2{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0}
+h1{font-size:2rem;line-height:1.15}
+h2{font-size:1.35rem}
+.lede{color:var(--muted);max-width:68ch;margin:8px 0 0}
+.meta{font:12px var(--mono);color:var(--muted);margin-top:10px}
+section{display:flex;flex-direction:column;gap:14px;min-width:0}
+.sub{color:var(--muted);margin:0;max-width:70ch}
+.eyebrow{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+/* method strip */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;list-style:none;padding:0;margin:0;counter-reset:s}
+.steps li{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px;counter-increment:s}
+.steps li::before{content:counter(s);font:600 12px var(--mono);color:var(--accent);display:block}
+.steps b{display:block;margin:2px 0 4px}
+.steps span{color:var(--muted);font-size:13px}
+.steps li.open{border-style:dashed}
+/* legend + pills */
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted)}
+.pill{display:inline-block;font:600 11px var(--mono);padding:2px 7px;border-radius:999px;white-space:nowrap}
+.dev{background:var(--dev-soft);color:var(--dev)} .maint{background:var(--maint-soft);color:var(--maint)}
+.inf{background:var(--inferred-soft);color:var(--inferred)} .read{background:var(--accent-soft);color:var(--accent)}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font:600 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+tr.inferred td:first-child{box-shadow:inset 3px 0 var(--inferred)}
+code{font:13px var(--mono);background:var(--bg);padding:1px 4px;border-radius:3px}
+.pid{font:600 13px var(--mono);color:var(--muted)}
+.dims{font-family:var(--mono);font-size:13px}
+/* flow */
+.flow{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;overflow-x:auto}
+.flow pre{margin:0}
+/* dimension grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.dim{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.dim header{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.dim h3{margin:0;font-size:15px}
+.dim .n{font:600 12px var(--mono);color:var(--muted)}
+.dim p{margin:0;font-size:14px}
+.dim .tr{color:var(--muted);font-size:13px}
+.dim .tr::before{content:"Trade-off · ";font-weight:600}
+.kind{font:11px var(--mono);color:var(--muted)}
+.filter{display:flex;gap:6px;flex-wrap:wrap}
+.filter button{font:600 12px var(--mono);border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:5px 10px;border-radius:999px;cursor:pointer}
+.filter button[aria-pressed="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.filter button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.dim.hl{border-color:var(--accent)}
+.dim.dim-off{opacity:.35}
+/* coupling */
+.couple{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;list-style:none;margin:0;padding:0}
+.couple li{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px;display:flex;gap:12px;min-width:0}
+.couple .ids{font:600 13px var(--mono);color:var(--accent);white-space:nowrap}
+.couple p{margin:0;font-size:14px}
+.callout{background:var(--inferred-soft);border-radius:6px;padding:14px 16px;font-size:14px}
+.callout b{color:var(--inferred)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">SkillCustomizer · Phase 1 · source 1 of 4</div>
+  <h1>Matt Pocock Skills Profile</h1>
+  <p class="lede">What Matt's skill set fixes, how its pieces connect, and where it stands on each of the 15 catalog dimensions. This is the first profile, so it's also a test of the profiling method itself.</p>
+  <div class="meta">mattpocock-skills @ 49dd158 · docs/workflows/mattpocock-skills.md · docs/dimensions.md v0.1</div>
+</header>
+
+<section>
+  <h2>How this profile was built</h2>
+  <p class="sub">The order the method used. The dashed step is still open: you asked to keep refining the method before applying it to the other sources.</p>
+  <ol class="steps">
+    <li><b>Read in full</b><span>Every SKILL.md in scope, plus README and ask-matt.</span></li>
+    <li><b>Problems first</b><span>README #1–#4 as read; 5 more framed from the flows (inferred).</span></li>
+    <li><b>Flow</b><span>Main pipeline, on-ramps, loops, user checkpoints.</span></li>
+    <li><b>Dimensions</b><span>Matt's position on each of the 15, with file path.</span></li>
+    <li><b>Coupling</b><span>Positions that only work together.</span></li>
+    <li class="open"><b>Method review</b><span>Is this format the right one for the next 3 sources?</span></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Problems it solves</h2>
+  <div class="legend"><span class="pill read">read</span> named by Matt in his README · <span class="pill inf">inferred</span> my framing of a flow · <span class="pill dev">development</span> <span class="pill maint">maintenance</span></div>
+  <div class="scroll"><table>
+    <thead><tr><th>#</th><th>Problem</th><th>Fixed by</th><th>Dimensions</th><th>Kind</th><th>Origin</th></tr></thead>
+    <tbody>
+      <tr><td class="pid">P1</td><td>The agent didn't do what I wanted</td><td><code>grill-me</code> <code>grill-with-docs</code> <code>grilling</code></td><td class="dims">4, 1</td><td><span class="pill dev">dev</span></td><td><span class="pill read">README #1</span></td></tr>
+      <tr><td class="pid">P2</td><td>The agent is way too verbose</td><td><code>grill-with-docs</code> <code>domain-modeling</code> <code>wait-what</code></td><td class="dims">11, 6</td><td><span class="pill dev">dev</span></td><td><span class="pill read">README #2</span></td></tr>
+      <tr><td class="pid">P3</td><td>The code doesn't work</td><td><code>tdd</code> <code>diagnosing-bugs</code> <code>code-review</code></td><td class="dims">7, 8</td><td><span class="pill dev">dev</span></td><td><span class="pill read">README #3</span></td></tr>
+      <tr><td class="pid">P4</td><td>We built a ball of mud</td><td><code>to-spec</code> <code>improve-codebase-architecture</code> <code>codebase-design</code></td><td class="dims">7, maint.*</td><td><span class="pill maint">maint</span></td><td><span class="pill read">README #4</span></td></tr>
+      <tr class="inferred"><td class="pid">P5</td><td>Context lost between sessions and phases</td><td>phase-boundary tree, <code>handoff</code>, self-contained tickets</td><td class="dims">10</td><td><span class="pill dev">dev</span></td><td><span class="pill inf">inferred</span></td></tr>
+      <tr class="inferred"><td class="pid">P6</td><td>Work too big for one session</td><td><code>wayfinder</code> <code>to-spec</code> → <code>to-tickets</code> <code>implement-spec</code></td><td class="dims">3, 5, 9</td><td><span class="pill dev">dev</span></td><td><span class="pill inf">inferred</span></td></tr>
+      <tr class="inferred"><td class="pid">P7</td><td>Raw incoming issues pile up</td><td><code>triage</code></td><td class="dims">2, 6</td><td><span class="pill maint">maint</span></td><td><span class="pill inf">inferred</span></td></tr>
+      <tr class="inferred"><td class="pid">P8</td><td>The agent's environment never improves</td><td><code>retro</code></td><td class="dims">12</td><td><span class="pill maint">maint</span></td><td><span class="pill inf">inferred</span></td></tr>
+      <tr class="inferred"><td class="pid">P9</td><td>Steps only a human or another person can do</td><td><code>wizard</code> <code>to-questionnaire</code></td><td class="dims">1</td><td><span class="pill dev">dev</span></td><td><span class="pill inf">inferred</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="sub">* The maintenance dimension is one of the held candidates (16–20), not yet in the catalog.</p>
+</section>
+
+<section>
+  <h2>How you would use it</h2>
+  <p class="sub">Start from your situation. Each box is what you type, and the label on each arrow is what you'd say or decide at that point. Grey boxes are skills the agent reaches for by itself.</p>
+  <div class="flow"><pre class="mermaid">
+flowchart TD
+  start([New repo]) --> setup["/setup-matt-pocock-skills (once)"]
+  setup --> q{What do you have?}
+  q -->|an idea to build| grill["/grill-with-docs"]
+  q -->|a bug that resists a first look| bug[diagnosing-bugs]
+  q -->|issues you didn't write| tri["/triage"]
+  q -->|a huge, foggy effort| way["/wayfinder"]
+  q -->|a spare moment| ica["/improve-codebase-architecture"]
+  q -->|not sure| ask["/ask-matt"]
+  ask -.->|recommends one| q
+  ica -->|pick a candidate| grill
+  grill --> ans{Can every question be settled by talking?}
+  ans -->|no, need to see it| proto["/handoff → prototype → /handoff"]
+  proto --> grill
+  ans -->|yes| size{Fits in one session?}
+  size -->|yes| impl["/implement here"]
+  size -->|no| spec["/to-spec → /to-tickets"]
+  way -->|map is clear| spec
+  spec --> how{Drive each ticket yourself?}
+  how -->|yes| per["/implement per ticket, /clear between"]
+  how -->|no, orchestrate| all["/implement-spec"]
+  tri -->|agent-ready issue| impl
+  impl --> auto[tdd → code-review → pr]
+  per --> auto
+  all --> auto
+  bug -->|fixed + regression test| retro
+  auto --> retro["/retro before you /clear"]
+  retro -->|better checks and standards| q
+  classDef model fill:transparent,stroke-dasharray:4 3
+  class bug,proto,auto model
+  </pre></div>
+  <p class="sub">Anywhere along the way: <code>/wait-what</code> when a reply doesn't land, <code>/grill-me</code> when there's no repo, <code>/research</code> to send reading off to a background agent.</p>
+</section>
+
+<section>
+  <h2>How the pieces connect</h2>
+  <p class="sub">One main pipeline with on-ramps and a feedback loop. Dashed arrows are the optional prototype detour. Each step can also be used on its own.</p>
+  <div class="flow"><pre class="mermaid">
+flowchart LR
+  setup[setup] -->|tracker, labels| grill
+  grill[grill-with-docs] -->|decisions, GLOSSARY, ADRs| spec[to-spec]
+  grill -.->|handoff| proto[prototype] -.->|handoff| grill
+  grill -->|small build| impl
+  spec -->|spec| tix[to-tickets]
+  tix -->|tickets + blocking edges| impl[implement / implement-spec]
+  impl -->|tdd, code-review, pr| retro[retro]
+  retro -->|environment changes| grill
+  triage[triage] -->|agent-ready issue| impl
+  bugs[diagnosing-bugs] -->|fix + regression test| retro
+  wayf[wayfinder] -->|decision map| spec
+  ica[improve-codebase-architecture] -->|new idea| grill
+  </pre></div>
+</section>
+
+<section>
+  <h2>Where Matt stands on each dimension</h2>
+  <p class="sub">Pick a problem to highlight the dimensions that serve it. Trade-offs are Matt-only for now and get revisited once the other sources are in.</p>
+  <div class="filter" role="group" aria-label="Highlight by problem">
+    <button type="button" data-p="all" aria-pressed="true">All</button>
+    <button type="button" data-p="1,4">P1</button><button type="button" data-p="11,6">P2</button><button type="button" data-p="7,8">P3</button><button type="button" data-p="7">P4</button>
+    <button type="button" data-p="10">P5</button><button type="button" data-p="3,5,9">P6</button><button type="button" data-p="2,6">P7</button><button type="button" data-p="12">P8</button><button type="button" data-p="1">P9</button>
+  </div>
+  <div class="grid" id="dims"></div>
+</section>
+
+<section>
+  <h2>Positions that only work together</h2>
+  <p class="sub">If you adopt one side of a pair in Phase 2, check the other side too.</p>
+  <ul class="couple">
+    <li><span class="ids">1·3·6</span><p>You as decider, heavy planning and spec/ticket artifacts are one package. Drop <code>to-spec</code>/<code>to-tickets</code> and multi-session builds have no input.</p></li>
+    <li><span class="ids">6·10</span><p>Clearing context between tickets only works because each ticket is self-contained.</p></li>
+    <li><span class="ids">3·8</span><p><code>code-review</code>'s Spec check needs a spec; without one it skips.</p></li>
+    <li><span class="ids">4·11</span><p><span class="pill inf">inferred</span> <code>wait-what</code> and the short vocabulary need the glossary that <code>grill-with-docs</code> builds.</p></li>
+    <li><span class="ids">2·14·15</span><p>The user-invoked / model-invoked split keeps process skills apart from reference skills.</p></li>
+    <li><span class="ids">13·6</span><p>Setup runs first; triage, spec, tickets and review read its tracker config.</p></li>
+    <li><span class="ids">7·8</span><p>Refactoring moves out of TDD into review; the reviewer enforces standards because it has less context pressure.</p></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Open questions about the method</h2>
+  <div class="callout"><b>For you to judge before profile 2:</b> Is "problems first, then dimensions" the right order? Should inferred problems stay in the shared list or wait for a second source? Is one profile file plus catalog entries enough, or should every source also get a page like this one?</div>
+</section>
+</div>
+
+<script>
+const D=[
+[1,"Roles and authority","General","You decide; the agent finds facts. Grilling doesn't act until you confirm shared understanding; TDD seams are confirmed before any test.","Keeps you in control; costs your attention on every change."],
+[2,"Entry and triggering","General","User-invoked skills orchestrate, model-invoked skills hold discipline. An orchestrator never calls another. ask-matt routes.","Predictable; you must know which skill to type."],
+[3,"Planning depth","Domain","Scaled to size: grill → implement, or grill → spec → tickets → implement, or wayfinder first for huge, foggy work.","Fits the work; three tiers to learn."],
+[4,"Clarifying requirements","General","Rounds over a design tree: every open question numbered, each with a recommended answer; done when nothing is open.","Thorough; long for small changes."],
+[5,"How work is split","Domain","By development phase, plus on-ramps by situation (triage, bugs, wayfinder).","Clean hand-offs; no home for task-type knowledge."],
+[6,"Artifacts and records","General","Specs and tickets on the tracker, GLOSSARY.md, ADRs, HTML architecture report, handoff files, cited research notes.","Durable trail; needs tracker setup."],
+[7,"Implementation discipline","Domain","TDD in vertical slices at agreed seams; test through public interfaces; deep modules.","Better tests and design; slower start."],
+[8,"Verification","Domain","Two parallel reviews of the diff: Standards (plus Fowler smells) and Spec. PRs carry before/after evidence.","Separates good code from right code; needs a spec."],
+[9,"Delegation and multiple agents","Domain","Subagents for fact-finding, parallel review, background research, and parallel ticket implementers in worktrees.","Concurrency; merge coordination."],
+[10,"Context and handoff","General","Decide only at phase boundaries: continue → clear → handoff → subagent → compact (default, last).","Cheap-first; you judge the boundaries."],
+[11,"Communication style","General","Concise through a shared GLOSSARY.md; wait-what re-explains a message that didn't land.","Fewer words; the glossary must be kept up."],
+[12,"Self-improvement","General","retro proposes environment changes, most severe first. Mechanical mistakes become checks, judgement calls become standards.","Improves the environment, not the skills; suggestions only."],
+[13,"Per-repo setup","General","Run once per repo: issue tracker, triage labels, doc locations.","Generic skills; one extra step."],
+[14,"Skill type and granularity","General","Process skills (orchestrators) plus reference skills (discipline and vocabulary). Small and composable.","Easy to swap; the flow lives in ask-matt."],
+[15,"Mechanism","General","Skills plus subagents; no hooks in the main flow. Enforcement comes from review and retro-proposed checks.","Portable across agents; nothing enforces automatically."]];
+const g=document.getElementById("dims");
+g.innerHTML=D.map(([n,t,k,p,tr])=>`<article class="dim" data-n="${n}"><header><h3>${t}</h3><span class="n">#${n}</span></header><span class="kind">${k}</span><p>${p}</p><p class="tr">${tr}</p></article>`).join("");
+document.querySelectorAll(".filter button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".filter button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  const set=b.dataset.p==="all"?null:b.dataset.p.split(",");
+  g.querySelectorAll(".dim").forEach(c=>{const on=!set||set.includes(c.dataset.n);c.classList.toggle("dim-off",!on);c.classList.toggle("hl",!!set&&on);});
+}));
+</script>

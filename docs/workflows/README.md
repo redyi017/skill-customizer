@@ -38,3 +38,15 @@ Positions in this source that only work together, linked to dimension numbers in
 ## Inferences
 Anything Claude inferred rather than read, labeled as such.
 ```
+
+## Visual report (ADR 0009)
+
+Each profile also gets `docs/reports/<source>.html`, derived from the profile and the catalog (no new claims). Sections, in order:
+
+1. How the profile was built
+2. Problems it solves (read vs. inferred)
+3. How you would use it: a decision flowchart from the user's situation to the skill they type; model-invoked skills marked
+4. How the pieces connect (artifact flow)
+5. Positions on each dimension, filterable by problem
+6. Coupling
+7. Open questions
