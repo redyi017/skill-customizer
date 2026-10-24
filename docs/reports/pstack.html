@@ -199,6 +199,22 @@ flowchart LR
 </section>
 
 <section>
+  <h2>When you're offline</h2>
+  <p class="sub">pstack plans for you being away. You leave a short contract, it loops without relaxing the goal, and you audit a log when you're back.</p>
+  <div class="flow"><pre class="mermaid">
+flowchart LR
+  t["Trust check:<br/>done it once, agent has your tools"] --> k["Contract:<br/>goal, pass/fail done check,<br/>worktree, escape hatch"]
+  k --> l["/loop: check the goal"] --> c[one change] --> v[verify on the real app]
+  v -->|progress| cm[commit] --> lg[log one row]
+  v -->|no progress| dc[discard] --> lg
+  lg --> l
+  v -.->|can't undo, or your call| park[pause, or default + report]
+  lg -.->|goal met or dead end| a["Back: Attention list<br/>from another model"]
+  </pre></div>
+  <p class="sub">Context stays small because the main chat works from subagent summaries and keeps its state in files. In Claude Code, cloud agents become local worktrees, so your machine has to stay on <span class="pill inf">inferred, untested</span>.</p>
+</section>
+
+<section>
   <h2>Where you step in</h2>
   <ul class="couple">
     <li><span class="ids">default</span><p>Reversible work goes ahead without asking. You correct it afterward.</p></li>
