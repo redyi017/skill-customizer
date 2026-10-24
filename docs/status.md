@@ -24,4 +24,6 @@ None. Method review after profile 1: problems-first order kept; inferred problem
 
 ## Next step
 
-Phase 1: ingest `pstack` in full (profile problems first, then catalog entries), then Anthropic skills and Claude Code plugins within scope (`docs/sources.md`). Then the user confirms the list of dimensions.
+`pstack` profile and visual report written (`docs/workflows/pstack.md`, `docs/reports/pstack.html`); its problems added to the shared list (P10–P13 new; numbers and parallel-agent problems folded into P3 and P6). Its per-dimension catalog entries are not written yet.
+
+Paused at the user's request to review the existing flow (method and profiles so far) before continuing.

@@ -14,15 +14,19 @@ Shared across sources (ADR 0008). Phase 2 starts here: the user picks the proble
 
 | # | Problem | Dimensions that serve it | Solved by |
 |---|---|---|---|
-| P1 | The agent didn't do what I want (misalignment) | 4, 1 | Matt |
+| P1 | The agent didn't do what I want (misalignment) | 4, 1 | Matt, pstack |
 | P2 | The agent is too verbose (no shared language) | 11, 6 | Matt |
-| P3 | The code doesn't work (no feedback loops) | 7, 8 | Matt |
+| P3 | The code doesn't work / isn't proven to work (no feedback loops, "it compiles", unvetted numbers) | 7, 8 | Matt, pstack |
 | P4 | We built a ball of mud (entropy) | 7, (maintenance, held) | Matt |
 | P5 | Context lost between sessions and phases (inferred) | 10 | Matt |
-| P6 | Work too big for one session (inferred) | 3, 5, 9 | Matt |
+| P6 | Work too big for one session (inferred); parallel agents overwrite each other | 3, 5, 9 | Matt, pstack |
 | P7 | Raw incoming issues pile up (inferred) | 2, 6 | Matt |
-| P8 | The agent's environment never improves (inferred) | 12 | Matt |
+| P8 | The agent's environment never improves (inferred); repeating the same correction | 12 | Matt, pstack |
 | P9 | Steps only a human or another person can do (inferred) | 1 | Matt |
+| P10 | Slop: too much low-quality code and prose | 7, 11 | pstack |
+| P11 | The agent lacks the context to do the work right | 10, 4 | pstack |
+| P12 | Locking in the first design, or polishing an untested plan | 3, 9 | pstack |
+| P13 | Unattended work can't be trusted or audited | 1, 6, 8 | pstack |
 
 ## Overview
 

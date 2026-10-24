@@ -1,0 +1,211 @@
+<title>pstack Profile</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column; method strip, then problems matrix, flow, dimensions grid, coupling list */
+:root{
+  --bg:#f6f7f5; --surface:#ffffff; --fg:#1d2420; --muted:#5d6862; --line:#d9dfdb;
+  --accent:#2f6b4f; --accent-soft:#e2efe8; --inferred:#9a6a12; --inferred-soft:#f6ecd8;
+  --dev:#2f5f8f; --dev-soft:#e1ebf5; --maint:#7a4a8a; --maint-soft:#efe4f3;
+  --display:"Fraunces",Georgia,serif; --body:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141917; --surface:#1c2320; --fg:#e4ebe7; --muted:#9aa8a1; --line:#2f3934;
+  --accent:#7cc4a0; --accent-soft:#1f3a2d; --inferred:#e2b45c; --inferred-soft:#3a2e15;
+  --dev:#8fb8e6; --dev-soft:#1d2c3d; --maint:#c9a0d8; --maint-soft:#33243a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141917; --surface:#1c2320; --fg:#e4ebe7; --muted:#9aa8a1; --line:#2f3934;
+  --accent:#7cc4a0; --accent-soft:#1f3a2d; --inferred:#e2b45c; --inferred-soft:#3a2e15;
+  --dev:#8fb8e6; --dev-soft:#1d2c3d; --maint:#c9a0d8; --maint-soft:#33243a; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:15px/1.55 var(--body)}
+.wrap{max-width:1080px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:44px}
+h1,h2{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0}
+h1{font-size:2rem;line-height:1.15}
+h2{font-size:1.35rem}
+.lede{color:var(--muted);max-width:68ch;margin:8px 0 0}
+.meta{font:12px var(--mono);color:var(--muted);margin-top:10px}
+section{display:flex;flex-direction:column;gap:14px;min-width:0}
+.sub{color:var(--muted);margin:0;max-width:70ch}
+.eyebrow{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+/* method strip */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;list-style:none;padding:0;margin:0;counter-reset:s}
+.steps li{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px;counter-increment:s}
+.steps li::before{content:counter(s);font:600 12px var(--mono);color:var(--accent);display:block}
+.steps b{display:block;margin:2px 0 4px}
+.steps span{color:var(--muted);font-size:13px}
+.steps li.open{border-style:dashed}
+/* legend + pills */
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted)}
+.pill{display:inline-block;font:600 11px var(--mono);padding:2px 7px;border-radius:999px;white-space:nowrap}
+.dev{background:var(--dev-soft);color:var(--dev)} .maint{background:var(--maint-soft);color:var(--maint)}
+.inf{background:var(--inferred-soft);color:var(--inferred)} .read{background:var(--accent-soft);color:var(--accent)}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font:600 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+tr.inferred td:first-child{box-shadow:inset 3px 0 var(--inferred)}
+code{font:13px var(--mono);background:var(--bg);padding:1px 4px;border-radius:3px}
+.pid{font:600 13px var(--mono);color:var(--muted)}
+.dims{font-family:var(--mono);font-size:13px}
+/* flow */
+.flow{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;overflow-x:auto}
+.flow pre{margin:0}
+/* dimension grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.dim{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.dim header{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.dim h3{margin:0;font-size:15px}
+.dim .n{font:600 12px var(--mono);color:var(--muted)}
+.dim p{margin:0;font-size:14px}
+.dim .tr{color:var(--muted);font-size:13px}
+.dim .tr::before{content:"Trade-off · ";font-weight:600}
+.kind{font:11px var(--mono);color:var(--muted)}
+.filter{display:flex;gap:6px;flex-wrap:wrap}
+.filter button{font:600 12px var(--mono);border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:5px 10px;border-radius:999px;cursor:pointer}
+.filter button[aria-pressed="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.filter button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.dim.hl{border-color:var(--accent)}
+.dim.dim-off{opacity:.35}
+/* coupling */
+.couple{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;list-style:none;margin:0;padding:0}
+.couple li{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px;display:flex;gap:12px;min-width:0}
+.couple .ids{font:600 13px var(--mono);color:var(--accent);white-space:nowrap}
+.couple p{margin:0;font-size:14px}
+.callout{background:var(--inferred-soft);border-radius:6px;padding:14px 16px;font-size:14px}
+.callout b{color:var(--inferred)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">SkillCustomizer · Phase 1 · source 2 of 4</div>
+  <h1>pstack Profile</h1>
+  <p class="lede">What poteto's skill set fixes, how one mode skill routes your task to a playbook, and where you step in. Its per-dimension catalog entries come after the method review.</p>
+  <div class="meta">pstack @ 6f131f1 · docs/workflows/pstack.md · shared problem list in docs/dimensions.md</div>
+</header>
+
+<section>
+  <h2>How this profile was built</h2>
+  <ol class="steps">
+    <li><b>Read</b><span>README, 11 guide pages, poteto-mode, 19 of 23 playbooks, 29 skills, 24 principles.</span></li>
+    <li><b>Problems first</b><span>Collected from the README intro and guide pages, each one cited.</span></li>
+    <li><b>Flow</b><span>Router, playbooks, user checkpoints, loops.</span></li>
+    <li><b>Coupling</b><span>6 notes on positions that only work together.</span></li>
+    <li class="open"><b>Dimensions</b><span>Not written yet. Paused for the method review.</span></li>
+  </ol>
+  <p class="sub">Skimmed only: the four orchestration-scale playbooks, the benny automation pack, and most reference files.</p>
+</section>
+
+<section>
+  <h2>Problems it solves</h2>
+  <div class="legend"><span class="pill read">shared</span> already in the list from Matt · <span class="pill inf">new</span> first raised by pstack · <span class="pill dev">development</span> <span class="pill maint">maintenance</span></div>
+  <div class="scroll"><table>
+    <thead><tr><th>#</th><th>Problem</th><th>Fixed by</th><th>Source page</th><th>Kind</th></tr></thead>
+    <tbody>
+      <tr class="inferred"><td class="pid">P10 <span class="pill inf">new</span></td><td>Slop: too much low-quality code and prose</td><td>laziness / subtract principles, <code>unslop</code>, <code>no-comments</code></td><td>README intro</td><td><span class="pill dev">dev</span></td></tr>
+      <tr><td class="pid">P1 <span class="pill read">shared</span></td><td>The agent misreads what you want</td><td>goal + done check in the prompt, <code>in-your-own-words</code>, <code>sharpen</code></td><td>guide p.2–3</td><td><span class="pill dev">dev</span></td></tr>
+      <tr class="inferred"><td class="pid">P11 <span class="pill inf">new</span></td><td>The agent lacks the context to do it right</td><td><code>how</code> <code>why</code> <code>teach</code> <code>recall</code></td><td>guide p.3</td><td><span class="pill dev">dev</span></td></tr>
+      <tr class="inferred"><td class="pid">P12 <span class="pill inf">new</span></td><td>Locking in the first design, or polishing an untested plan</td><td><code>architect</code> <code>arena</code>, prototypes, <code>interrogate</code></td><td>guide p.4</td><td><span class="pill dev">dev</span></td></tr>
+      <tr><td class="pid">P3 <span class="pill read">shared</span></td><td>"It compiles" is not evidence; numbers can lie</td><td>prove-it-works, <code>create-verification-skill</code>, <code>benchmark-checklist</code>, Shipping verifiers</td><td>guide p.6</td><td><span class="pill dev">dev</span></td></tr>
+      <tr class="inferred"><td class="pid">P13 <span class="pill inf">new</span></td><td>Unattended work can't be trusted or audited</td><td>finish predicate, Autonomous run, <code>figure-it-out</code>, <code>show-me-your-work</code></td><td>guide p.7</td><td><span class="pill dev">dev</span></td></tr>
+      <tr><td class="pid">P8 <span class="pill read">shared</span></td><td>Repeating the same correction to agents</td><td><code>correct</code> <code>reflect</code>, encode-lessons principle</td><td>guide p.9</td><td><span class="pill maint">maint</span></td></tr>
+      <tr><td class="pid">P6 <span class="pill read">shared</span></td><td>Parallel agents overwrite each other</td><td>worktree or cloud agent per worker</td><td>guide p.2, p.10</td><td><span class="pill dev">dev</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>How you would use it</h2>
+  <p class="sub">You type one prompt to <code>/poteto-mode</code> with a goal and a way to check it. The words you use pick the playbook. Dashed boxes are skills you can also type yourself when you want more or less than the playbook gives.</p>
+  <div class="flow"><pre class="mermaid">
+flowchart TD
+  start([New machine]) --> setup["/setup-pstack (once per user)"]
+  setup --> q{What do you say?}
+  q -->|"don't change any code yet"| inv[Investigation: cited answer]
+  q -->|"repro first, then fix"| bug[Bug fix]
+  q -->|"add X, verify it"| feat[Feature]
+  q -->|"zero behavior change"| ref[Refactoring]
+  q -->|"it takes 1.8s, trace it"| perf[Perf issue / Hillclimb]
+  q -->|"i'm going to bed, done means..."| fio[figure-it-out + decision log]
+  q -->|"turn this into a plan"| plan[Multi-phase plan]
+  q -->|not sure| help["/poteto-help"]
+  help -.->|hands you a prompt| q
+  feat --> pr[Opening a PR]
+  bug --> pr
+  ref --> pr
+  perf --> pr
+  fio --> pr
+  plan -->|your explicit go| auto[Autopilot / Orchestrate]
+  pr -->|"babysit this pr"| bab[Babysit to merge-ready]
+  bab -->|"land the stack"| ship[Shipping]
+  ship --> back["/show-me-your-work, /reflect, /correct"]
+  back --> q
+  direct["/how /why /architect /arena /interrogate /tdd"]:::own -.-> q
+  classDef own stroke-dasharray:4 3
+  </pre></div>
+  <p class="sub">Steer mid-run with a principle name, for example "apply prove it works, show me the real output."</p>
+</section>
+
+<section>
+  <h2>How the pieces connect</h2>
+  <p class="sub">A router, not a pipeline. Each playbook calls the skills it needs, and they call each other.</p>
+  <div class="flow"><pre class="mermaid">
+flowchart LR
+  mode[poteto-mode] -->|reads| pr[24 principles]
+  mode --> pb[playbook steps in todo list]
+  pb --> how[how] & why[why]
+  pb --> arch[architect] --> arena[arena]
+  arch --> how
+  pb --> del[poteto-agent delegate] -->|diff| ver[verify on real surface]
+  ver --> clean[deslop, no-comments, unslop]
+  clean --> inter[interrogate: other models try to break it]
+  inter --> open[Opening a PR]
+  teach[teach] --> how
+  teach --> why
+  </pre></div>
+</section>
+
+<section>
+  <h2>Where you step in</h2>
+  <ul class="couple">
+    <li><span class="ids">default</span><p>Reversible work goes ahead without asking. You correct it afterward.</p></li>
+    <li><span class="ids">always</span><p>Irreversible actions pause: force-push, deploys, data deletion, customer messages.</p></li>
+    <li><span class="ids">decide</span><p>Product or preference calls that no prototype can settle.</p></li>
+    <li><span class="ids">opt in</span><p>"/architect with checkpoint" or "let me review before proceeding".</p></li>
+    <li><span class="ids">approve</span><p>reflect's skill edits, a plan's go, and any merge. Babysit stops at merge-ready.</p></li>
+    <li><span class="ids">audit</span><p>The decision log, with an Attention section written by a reviewer on another model.</p></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Positions that only work together</h2>
+  <ul class="couple">
+    <li><span class="ids">1·4·10</span><p>Not blocking on you only works because the prompt has a pass/fail check and the decision log replaces live supervision.</p></li>
+    <li><span class="ids">9·13·15</span><p>Multi-model review needs the role-to-model mapping from setup.</p></li>
+    <li><span class="ids">3·8</span><p><span class="pill inf">inferred</span> No planning step works because prototypes and live verification do a spec's job.</p></li>
+    <li><span class="ids">7·12</span><p>correct ranks fixes by enforcement: architecture, types, lint, test, docs last.</p></li>
+    <li><span class="ids">6·9</span><p>Parallel workers each need their own worktree or cloud agent.</p></li>
+    <li><span class="ids">8·9</span><p>The agent that judges a change is never the one that wrote it, so verification needs subagents.</p></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Compared with Matt at a glance</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>Question</th><th>Matt</th><th>pstack</th></tr></thead>
+    <tbody>
+      <tr><td>How work starts</td><td>You pick the skill for the phase</td><td>One mode skill picks the playbook</td></tr>
+      <tr><td>Planning</td><td>Grill, spec, tickets</td><td>None by default; prototypes and architect</td></tr>
+      <tr><td>Who decides</td><td>You, through grilling rounds</td><td>The agent, unless a call can't be undone</td></tr>
+      <tr><td>Proof of done</td><td>TDD and two-axis review</td><td>Run the real app; a different agent gives the verdict</td></tr>
+      <tr><td>Models</td><td>Any one model</td><td>Several, mapped to roles</td></tr>
+      <tr><td>Improving itself</td><td>retro suggests environment changes</td><td>reflect edits skills, correct adds repo checks</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Open questions</h2>
+  <div class="callout"><b>For the method review:</b> pstack spreads its problems across guide pages instead of one list, so its problem rows took more judgment than Matt's. Its Cursor-only mechanisms (cloud agents, Custom Modes, cursor-team-kit) are mapped to Claude Code by the mirror, but that mapping is untested here.</div>
+</section>
+</div>
