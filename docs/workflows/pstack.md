@@ -4,6 +4,23 @@
 - Shape: a router dispatching to playbooks. One mode skill (`poteto-mode`) matches the task to one of 23 playbooks, copies its steps into the todo list, and pulls in other skills and 24 one-rule principles as the steps fire. There is no planning step by default (`README.md`, "why are there no planning skills?").
 - Reading coverage: README, all 11 guide pages, `poteto-mode` and 19 playbooks, 29 standalone skills, 24 principles and both agents read in full or close to it. Skimmed only: `orchestrate`, `autopilot-full`, `autopilot-stack`, `worktree-cleanup`, the `benny` automation pack, and most `references/` files.
 
+## Purpose
+
+Who it is built for and what the human keeps (ADR 0010).
+
+- Built for an operator who delegates as much as possible: "stop micromanaging the agent" (`docs/guide/README.md`); "fearless parallelism ... start multiple agents up with `poteto-mode`" (`README.md`).
+- The human keeps goals and judgment calls: "Product direction comes from the human. Execution should not block" (`principle-never-block-on-the-human`).
+- Quality is the condition for delegating: "throughput without quality is not a goal ... if you want to go fast, go deep first" (`README.md`).
+
+## Stance
+
+Where trust in the work comes from. *(Claude's framing)*
+
+- Trust is built **after** the code, by independent proof: the writer is never the judge (Shipping verifiers, `no-comments`, `arena` cross-judge), different model families review the same work (`interrogate`), and "done" means evidence from the real app (`principle-prove-it-works`, `create-verification-skill`).
+- Claims are labeled: "Every claim carries its evidence or its label in the same sentence. Measured, inferred, or guess" (`poteto-mode`, Writing the reply).
+- Supervision is replaced by audit: a decision log with an "Attention" section from a reviewer on another model (`show-me-your-work`).
+- Weaker on "is this the right feature": `architect` skips the design checkpoint by default, and there is no review against a spec, only against the prompt's done condition. *(inferred)*
+
 ## Problems it solves
 
 pstack has no failure-mode section like Matt's README. It names problems in the README intro and across the guide pages; each row cites where. "Shared #" links to the list in `docs/dimensions.md`.

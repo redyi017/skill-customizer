@@ -17,7 +17,7 @@ The method is not tied to a domain. Its first application is coding.
 |---|---|---|
 | 0. Choose sources | List candidate skill sets and what sets each apart | **Decide** which to ingest |
 | 1. Extract dimensions | Ingest the sources (see "Ingestion" below) and update the catalog | **Confirm** the list of dimensions: add, remove or merge |
-| 2. Take positions | Start from the problem list: the user picks the problems they have. Then offer 2–3 options with trade-offs for each linked dimension, checking the coupling notes so the combination still forms a working flow; record each choice with a one-line reason in the catalog | **Decide** a position: A, B, a mix, or your own. Add dimensions the catalog lacks. This step is always the user's |
+| 2. Take positions | In order (ADR 0010): the user states their purpose (one, or one per kind of work); picks the problems they have from the problem list; chooses a stance (where trust comes from); then picks mechanisms from any source that fit the stance, checking coupling notes when borrowing across stances. The dimensions are a completeness checklist: record each as a consequence with a one-line reason | **Decide** purpose, problems, stance and mechanisms. Add dimensions the catalog lacks. This step is always the user's |
 | 3. Design skill architecture | Turn the positions into a list of skills and how they relate, starting from the source workflow profiles | **Approve** the architecture |
 | 4. Write skills | Write the skills one by one, going back to the originals for wording when needed | **Spot-check** drafts |
 | 5. Use them | Record where things got stuck or felt wrong in real projects | **Supply material**: real usage that only the user has |

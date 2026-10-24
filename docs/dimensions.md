@@ -6,6 +6,8 @@
 
 Kind: **General** = carries over to other domains; **Domain** = specific to coding.
 
+Since ADR 0010 the dimensions are a **completeness checklist**, not separate choices: phase 2 picks purpose, problems, stance and mechanisms, and each dimension records what that choice implies.
+
 The catalog is a reference, not a boundary (ADR 0007). Dimensions and positions without a source are cited as `user`, or `usage` if they came from phase 5. Record the user's position in the last column with a one-line reason.
 
 ## Problems

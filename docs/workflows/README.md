@@ -12,6 +12,12 @@ Write profiles in our own words (ADR 0004). For non-open-source sources, describ
 - Source: <name>, pinned commit <hash>
 - Shape: one line, e.g. "linear pipeline by phase" or "router dispatching to playbooks"
 
+## Purpose
+Who the source is built for and what the human keeps doing (ADR 0010). Quote the source.
+
+## Stance
+Where trust in the work comes from (ADR 0010). Label Claude's framing.
+
 ## Problems it solves
 Start here (ADR 0008). Each problem the source targets, the skills that fix it, and how. Follow the source's own structure when it has one (e.g. a README organized by failure mode). Mark problems Claude inferred rather than read. Add each problem to the shared list in `docs/dimensions.md`.
 

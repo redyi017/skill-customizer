@@ -3,6 +3,22 @@
 - Source: mattpocock-skills, pinned commit `49dd158d1076134a641b33efb035946536778336`
 - Shape: one main pipeline by phase (idea → ship), with three on-ramps, an upkeep loop, and a vocabulary layer underneath. Matt presents each piece as small, composable and optional, not as a process that owns the work (`README.md`, intro).
 
+## Purpose
+
+Who it is built for and what the human keeps (ADR 0010).
+
+- Built for a human engineer who stays the engineer: "My agent skills that I use every day to do real engineering - not vibe coding" (`README.md`).
+- The human keeps control and understanding: other approaches "take away your control and make bugs in the process hard to resolve"; grilling helps you "think deeply about the change you're making" (`README.md`, intro and #1).
+- The human keeps the design: shared language in `GLOSSARY.md`, ADRs, deep modules, "caring about the design of the code" (`README.md` #2, #4).
+
+## Stance
+
+Where trust in the work comes from. *(Claude's framing)*
+
+- Trust is built **before** the code: align by interview, write a spec, split into tickets, then review the diff against that spec (`code-review` Spec axis).
+- Proof during the build comes from feedback loops the human sets up: TDD at seams the user confirms, static types, tests (`README.md` #3; `tdd/SKILL.md`).
+- The human makes every decision; the agent finds facts (`grilling/SKILL.md`).
+
 ## Problems it solves
 
 Matt's README ("Why These Skills Exist", #1–#4) names four failure modes. Rows marked *(inferred)* are problems Claude framed from the flow described in `skills/engineering/ask-matt/SKILL.md`. Matt does not list them as problems.
