@@ -74,6 +74,13 @@ code{font:13px var(--mono);background:var(--bg);padding:1px 4px;border-radius:3p
 .couple p{margin:0;font-size:14px}
 .callout{background:var(--inferred-soft);border-radius:6px;padding:14px 16px;font-size:14px}
 .callout b{color:var(--inferred)}
+.ps{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.ps article{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.ps h3{margin:0;font-size:15px}
+.ps .big{font-family:var(--display);font-size:1.15rem;line-height:1.3;margin:0}
+.ps ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.ps q{color:var(--muted);font-style:italic}
+.ps .src{font:12px var(--mono);color:var(--muted)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
@@ -96,6 +103,32 @@ code{font:13px var(--mono);background:var(--bg);padding:1px 4px;border-radius:3p
     <li><b>Coupling</b><span>Positions that only work together.</span></li>
     <li class="open"><b>Method review</b><span>Is this format the right one for the next 3 sources?</span></li>
   </ol>
+</section>
+
+<section>
+  <h2>Purpose and stance</h2>
+  <p class="sub">The two layers above the problems (ADR 0010). Purpose says who the skill set is built for. Stance says where trust in the work comes from, and it follows from the purpose.</p>
+  <div class="ps">
+    <article>
+      <div class="eyebrow">Purpose</div>
+      <p class="big">Built for a human engineer who stays the engineer.</p>
+      <ul>
+        <li><q>real engineering - not vibe coding</q> <span class="src">README</span></li>
+        <li>You keep control: other frameworks <q>take away your control</q>. <span class="src">README</span></li>
+        <li>You keep the design in your head: glossary, ADRs, deep modules. <span class="src">README #2, #4</span></li>
+      </ul>
+    </article>
+    <article>
+      <div class="eyebrow">Stance <span class="pill inf">my framing</span></div>
+      <p class="big">Trust is built before the code.</p>
+      <ul>
+        <li>Align by interview, write a spec, split into tickets.</li>
+        <li>Review the diff against that spec, plus coding standards.</li>
+        <li>You make every decision; the agent finds the facts. <span class="src">grilling</span></li>
+        <li>Weaker when you're away: the flow expects you at each phase. <span class="pill inf">inferred</span></li>
+      </ul>
+    </article>
+  </div>
 </section>
 
 <section>

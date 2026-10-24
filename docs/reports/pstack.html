@@ -74,6 +74,13 @@ code{font:13px var(--mono);background:var(--bg);padding:1px 4px;border-radius:3p
 .couple p{margin:0;font-size:14px}
 .callout{background:var(--inferred-soft);border-radius:6px;padding:14px 16px;font-size:14px}
 .callout b{color:var(--inferred)}
+.ps{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.ps article{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.ps h3{margin:0;font-size:15px}
+.ps .big{font-family:var(--display);font-size:1.15rem;line-height:1.3;margin:0}
+.ps ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.ps q{color:var(--muted);font-style:italic}
+.ps .src{font:12px var(--mono);color:var(--muted)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 <div class="wrap">
@@ -94,6 +101,32 @@ code{font:13px var(--mono);background:var(--bg);padding:1px 4px;border-radius:3p
     <li class="open"><b>Dimensions</b><span>Not written yet. Paused for the method review.</span></li>
   </ol>
   <p class="sub">Skimmed only: the four orchestration-scale playbooks, the benny automation pack, and most reference files.</p>
+</section>
+
+<section>
+  <h2>Purpose and stance</h2>
+  <p class="sub">The two layers above the problems (ADR 0010). Purpose says who the skill set is built for. Stance says where trust in the work comes from, and it follows from the purpose.</p>
+  <div class="ps">
+    <article>
+      <div class="eyebrow">Purpose</div>
+      <p class="big">Built for an operator who delegates as much as possible.</p>
+      <ul>
+        <li><q>stop micromanaging the agent</q> <span class="src">guide</span></li>
+        <li><q>fearless parallelism</q>: many agents at once. <span class="src">README</span></li>
+        <li>You keep goals and judgment calls: <q>Product direction comes from the human. Execution should not block.</q> <span class="src">never-block-on-the-human</span></li>
+      </ul>
+    </article>
+    <article>
+      <div class="eyebrow">Stance <span class="pill inf">my framing</span></div>
+      <p class="big">Trust is built after the code, by independent proof.</p>
+      <ul>
+        <li>The writer is never the judge: a fresh agent verifies each PR live.</li>
+        <li>Different model families review the same work.</li>
+        <li>Every claim is labeled measured, inferred or guess. <span class="src">poteto-mode</span></li>
+        <li>Weaker on "is this the right feature": no spec to review against, and the design checkpoint is off by default. <span class="pill inf">inferred</span></li>
+      </ul>
+    </article>
+  </div>
 </section>
 
 <section>
