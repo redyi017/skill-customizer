@@ -45,12 +45,13 @@ Source abbreviations: **Matt** = Matt Pocock skills; **pstack**; **A-skills** = 
 | 7 | Implementation discipline | Domain | TDD, deep modules | TDD, delete before adding, no comments, unslop | Tool-specific best practices with bundled scripts | `security-guidance` warns on edits; `hookify` blocks unwanted behavior with hooks | TBD |
 | 8 | Verification | Domain | Code review against standards and the spec | Prove it works | `webapp-testing` runs real Playwright checks; `skill-creator` runs evals | `code-review`: several specialized agents with confidence scores; `pr-review-toolkit` reviews by aspect (tests, error handling, types, …) | TBD |
 | 9 | Delegation and multiple agents | Domain | `/implement-spec` runs implementer subagents across the ready-ticket frontier; `code-review` runs two parallel review subagents; `research` runs as a background agent | arena and swarm multi-model workflows; models mapped to roles | `skill-creator` runs evals in parallel subagents (unverified) | Heavy use of specialized subagents (explore, architect, review) | TBD |
-| 10 | Context and handoff | General | `/handoff` | Guard the context window (principle skill) | Progressive loading: reference files and scripts beyond SKILL.md are read only when needed | Work goes to subagents; the main conversation gets only results (unverified) | TBD |
+| 10 | Context and handoff | General | `/handoff` | Main chat coordinates; bulk goes to subagents with file-pointer briefs; fresh agent per task; state on disk (decision log, resume note); scripts return query results, not raw data | Progressive loading: reference files and scripts beyond SKILL.md are read only when needed | Work goes to subagents; the main conversation gets only results (unverified) | TBD |
 | 11 | Communication style | General | `/wait-what` restates in plain English | Written for the consumer and maintainer of the work; technical-writing | `doc-coauthoring` has readers test the document (unverified) | `explanatory-output-style` explains implementation choices; `learning-output-style` teaches | TBD |
 | 12 | Self-improvement | General | `/retro` | `reflect`; `automate-me` drafts a personal skill from transcripts | `skill-creator`: iterate with evals, optimize descriptions | `hookify` creates hooks from conversation patterns | TBD |
 | 13 | Per-repo / per-org setup | General | `/setup-matt-pocock-skills` | `/setup-pstack`: reasoning budget, model roles | Not addressed within scope (unverified) | No dedicated setup plugin seen (unverified) | TBD |
 | 14 | Skill type and granularity | General | **Process** skills (by phase) + **reference** skills | **Playbooks** (by task) + **principle** skills (one principle each) | **Capability** skills (one tool or format each, with scripts) | **Step** plugins (one workflow step each) | TBD |
 | 15 | Mechanism (skill / subagent / hook) | General | Mostly skills (including legacy commands) | Mostly skills, plus subagents | Skills only | Skills (including legacy commands), subagents and hooks; hooks **enforce** behavior instead of relying on the agent to remember | TBD |
+| 16 | Unattended vs. human-in-the-loop | General | No offline mode; only tightly scoped AFK tasks go to a subagent | Planned offline mode: trust check, contract with a pass/fail done condition, `/loop`, decision log audited by another model | Not covered (unverified) | `ralph-wiggum` loops until done (unverified) | TBD |
 
 > Note: Claude Code has merged custom slash commands into skills (`.claude/commands/x.md` and `.claude/skills/x/SKILL.md` both create `/x` and behave the same; new work should be skills). So "slash command" is no longer a separate mechanism; it is a triggering option under dimension 2, controlled by the frontmatter fields `disable-model-invocation: true` (user only) and `user-invocable: false` (Claude only). Source: https://code.claude.com/docs/en/skills
 
@@ -173,6 +174,10 @@ Matt's positions below are from the full read (2026-10-18). Other sources are ad
   - Matt: Decide only at phase boundaries, in order: continue → `/clear` → `/handoff` (only for a new harness, directory, colleague, or a side fork) → subagent → `/compact` (default, last). Keep grill → spec → tickets in one window (`ask-matt/PHASE-BOUNDARIES.md`).
   - Trade-offs (Matt-only view, revisit after other sources):
     - Explicit and cheap-first; relies on the user judging the boundaries.
+  - pstack: The main chat coordinates and keeps summaries; bulk reading, writing and verifying go to subagents ("Route bulk to subagents; keep summaries in the main thread", `principle-guard-the-context-window`). Briefs carry file pointers, not pasted context; each new task gets a fresh subagent with one consolidated brief, because "interrupt-chained resumes silently drop directives" (`poteto-mode`, Subagents). State lives on disk: decision log (`show-me-your-work`), resume note before compaction (`pause-safely.md`), Orchestrate's store. Scripts return query results instead of raw data (`principle-build-the-lever`, `trace-forensics.md`).
+  - Trade-offs (two-source view):
+    - Matt keeps reasoning first-hand but depends on the user calling the boundary; pstack keeps the window clean but the main thread works mostly from summaries, which Matt calls lossy secondary sources.
+- Implementation note (user, 2026-10-24): context management is an implementation concern, decided in phase 3 (skill architecture), not at the purpose or stance layer. One requirement flows down from stance: conclusions drawn from summaries are marked (ADR 0010, trust marking).
 - My position: TBD
 
 ### 11. Communication style
@@ -218,4 +223,15 @@ Matt's positions below are from the full read (2026-10-18). Other sources are ad
   - Matt: Skills plus subagents; no hooks in the main flow (`git-guardrails-claude-code` in `misc/` is outside the documented flows). Enforcement comes from review and from checks that `retro` proposes.
   - Trade-offs (Matt-only view, revisit after other sources):
     - Portable across agents (Claude Code, Codex, Copilot, Gemini); nothing enforces behavior automatically.
+- My position: TBD
+
+### 16. Unattended vs. human-in-the-loop
+- Definition: What the workflow does when the user is away: stop, keep going, or never start.
+- Kind: General
+- Origin: candidate held until all sources were in; brought forward by the user on 2026-10-24 after the pstack profile.
+- Positions:
+  - Matt: No offline mode. The phase-boundary tree asks "Can the task be done AFK?" and sends only a tightly scoped task to a subagent; the main flow expects the user at each phase (`ask-matt/PHASE-BOUNDARIES.md`).
+  - pstack: A planned offline mode. Before: a trust check (done it once, agent has your tools, every stage can stop the line, repeated failures turned into checks) and a contract (goal, pass/fail done condition, worktree, pre-answered permissions, escape hatch) (`docs/guide/07-overnight.md`). During: `/loop` wakes on a timer or event; each iteration makes one change, verifies, commits or discards, logs one row; the predicate never relaxes (`autonomous-run.md`). Irreversible actions still pause; calls only the user can make get a default plus a report (`poteto-mode`, Autonomy and Non-negotiables). After: `show-me-your-work` ends with an Attention list from a reviewer on another model. Larger: Autopilot-full, Autopilot-stack, Orchestrate (`gates.md` parks questions with a default).
+  - Trade-offs (two-source view):
+    - Matt never acts without the user but cannot use time the user is away; pstack uses that time but needs a working verification setup first, and its trust rests on the done condition being right.
 - My position: TBD

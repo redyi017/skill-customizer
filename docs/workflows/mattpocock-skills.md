@@ -18,6 +18,8 @@ Where trust in the work comes from. *(Claude's framing)*
 - Trust is built **before** the code: align by interview, write a spec, split into tickets, then review the diff against that spec (`code-review` Spec axis).
 - Proof during the build comes from feedback loops the human sets up: TDD at seams the user confirms, static types, tests (`README.md` #3; `tdd/SKILL.md`).
 - The human makes every decision; the agent finds facts (`grilling/SKILL.md`).
+- Context: the user decides at phase boundaries; reasoning stays first-hand in one window through grill → spec → tickets (dimension 10).
+- No offline mode: only tightly scoped AFK tasks go to a subagent (dimension 16).
 
 ## Problems it solves
 

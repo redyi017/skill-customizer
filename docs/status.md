@@ -20,7 +20,7 @@ None. Method review after profile 1: problems-first order kept; inferred problem
 
 ## Decided, waiting to be applied
 
-- Candidate dimensions 16–20 (work state, unattended vs. human-in-the-loop, shared language, portability, maintenance) are held until all four sources are ingested, then added or merged together.
+- Dimension 16 (unattended vs. human-in-the-loop) added on 2026-10-24. Candidates work state, shared language, portability and maintenance are still held until all four sources are ingested, then added or merged together.
 - Provisional user position (origin `user`), to attach to the maintenance dimension when it is added: `improve-codebase-architecture` is a key loop beside the main grill → spec → tickets → implement flow, not an optional side tool.
 
 ## Next step

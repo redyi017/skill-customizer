@@ -19,6 +19,7 @@ Where trust in the work comes from. *(Claude's framing)*
 - Trust is built **after** the code, by independent proof: the writer is never the judge (Shipping verifiers, `no-comments`, `arena` cross-judge), different model families review the same work (`interrogate`), and "done" means evidence from the real app (`principle-prove-it-works`, `create-verification-skill`).
 - Claims are labeled: "Every claim carries its evidence or its label in the same sentence. Measured, inferred, or guess" (`poteto-mode`, Writing the reply).
 - Supervision is replaced by audit: a decision log with an "Attention" section from a reviewer on another model (`show-me-your-work`).
+- Context: the main chat coordinates and works mostly from subagent summaries; state lives in files (dimension 10).
 - Weaker on "is this the right feature": `architect` skips the design checkpoint by default, and there is no review against a spec, only against the prompt's done condition. *(inferred)*
 
 ## Problems it solves
@@ -92,6 +93,15 @@ flowchart LR
 - **Opt-in checkpoints**: `/architect with checkpoint`; "let me review before proceeding" in the prompt.
 - **Approve**: `reflect` waits for approval before any skill edit; a multi-phase plan waits for an explicit go; Babysit never merges, landing is a separate request.
 - **Audit after the fact**: `show-me-your-work` ends with an Attention section from a reviewer on another model.
+
+## Offline mode
+
+pstack plans for the user being away (dimension 16; `docs/guide/07-overnight.md`, `autonomous-run.md`).
+
+- Before: a trust check, then a short contract (goal, pass/fail done condition, worktree, pre-answered permissions, escape hatch). A duration is not a done condition.
+- During: `/loop` re-checks the predicate; one change, verify, commit or discard, one log row. Side problems are fixed in their own PRs. Irreversible actions still pause; calls only the user can make get a default and a report. Pause safely writes a resume note; Session pickup resumes from it.
+- After: `show-me-your-work` with an Attention list from a reviewer on another model.
+- In Claude Code, cloud agents become local worktrees, so the machine has to stay on. *(inferred from the Harness section, untested)*
 
 ## Loops
 

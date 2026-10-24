@@ -25,7 +25,7 @@ Option 2.
 - Every profile gets a **Purpose** section and a **Stance** section after its header, each claim quoted from the source or labeled inferred.
 - Phase 2 order: the user states their purpose (one, or one per kind of work), picks the problems they have, chooses a stance, then picks mechanisms that fit the stance. Mechanisms are borrowed from any source.
 - The 15 dimensions become a checklist: "has the chosen stance answered this?" Positions on them are recorded as consequences, not separate choices. Coupling notes are checked when a mechanism is borrowed across stances.
-- **Trust marking** (origin `user`): every skill the user's set produces must make clear what in its output can be trusted and what cannot (for example: measured / inferred / guess labels, an "Attention" list, an explicit unverified marker). This is a requirement on phase 4 skills, not a dimension position.
+- **Trust marking** (origin `user`): every skill the user's set produces must make clear what in its output can be trusted and what cannot (for example: measured / inferred / guess labels, an "Attention" list, an explicit unverified marker). This is a requirement on phase 4 skills, not a dimension position. Addendum (2026-10-24): a conclusion drawn from a summary (a subagent report, a compacted context, a handoff note) rather than a first-hand source is marked as second-hand.
 
 ## Rationale
 
